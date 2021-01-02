@@ -1,0 +1,14 @@
+Charge, 0, "", 0, 0, 1, 0, 0, 0
+Block, 0, "", 0, 0, 0, 1, 0, 0
+Pew, 0, "", 1, 0, 0, 0, 0, 0
+PewCharge, 1, Charge, 1, 0, 1, 0, 0, 0
+Bazooka, 2, Block, 2, 0, 0, 0, 0, 0
+Sniper, 2, Block, 1, 0, 0, 0, 0, 0
+Smoke, 2, Block, 0, 0, 0, 0, 0, 1
+Flamethrower, 2, Charge, 2, 0, 0, 0, 0, 0
+Double, 2, Charge, 0, 2, 0, 0, 1, 0
+Reflect, 1, Charge, 0, 0, 0, 0, 0, 0
+Unbreakable, 1, Double, 2, 0, 0, 0, 0, 0
+Bionic, 4, Charge, 0, 4, 0, 0, 2, 0
+GhostGun, 2, Charge, 0, 0, 0, 0, 0, 0
+SmokeMachine, 2, Smoke, 1, 0, 0, 0, 0, 0
