@@ -129,6 +129,30 @@ public class Player {
             case "b":
             case "B":
                 return new Block();
+            //Bazooka
+            case "ba":
+            case "BA":
+                return new Bazooka(target);
+            //Sniper
+            case "sn":
+            case "SN":
+                return new Sniper(target);
+            // FlameThrower
+            case "fl":
+            case "FL":
+                return new Flamethrower(target);
+            // Double
+            case "db":
+            case "DB":
+                return new war.moves.Double();
+            // Unbreakable
+            case "un":
+            case "UN":
+                return new Unbreakable(target);
+            // Bionic
+            case "bi":
+            case "BI":
+                return new Bionic();
             // Doesn't fit a shortcut
             default:
                 // TODO: Handle properly, don't just throw error but ask again

@@ -21,9 +21,10 @@ public abstract class Move {
 // Type, Cost, CostType, Attack, Defense, Charges, Blocks, Doubles, Smokes
 
     // TODO: Implement:
-    One charge or one block a turn
     Smoke
     Sniper through Smoke
+    SmokeMachine
+    Reflect
     GhostGun losing to any gun, but killing with 0 dmg
-
+    GhostGun goes through Smoke
 */

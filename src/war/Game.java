@@ -19,6 +19,15 @@ public class Game {
         }
     }
 
+    public void round() {
+        for (Player player : players) {
+            player.turn();
+            System.out.println(player.getName());
+            System.out.println("Attack: " + player.attack);
+            System.out.println("Defense: " + player.defense);
+            System.out.println(player.listResources());
+        }
+    }
 
     // is this needed?
     public static void parseMoves(String file) {
