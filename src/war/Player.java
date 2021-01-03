@@ -92,6 +92,7 @@ public class Player {
         return moves;
     }
 
+    // TODO: Don't throw error, just reask
     public boolean checkValidity(Move move, boolean isAttack, boolean isResource, boolean havePewCharge) {
         if(!havePewCharge) {
             if(move instanceof PewCharge) {

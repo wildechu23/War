@@ -4,7 +4,7 @@ import war.Player;
 
 public class PewCharge extends Attack implements Resource {
     public PewCharge(Player target) {
-        super("PewCharge", target);
+        super("PewCharge", new Resources[]{}, target);
     }
 
     @Override

@@ -2,7 +2,7 @@ package war.moves;
 
 public class Charge extends Defense implements Resource {
     public Charge() {
-        super("Charge");
+        super("Charge", new Resources[]{});
     }
 
     @Override

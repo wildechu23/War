@@ -1,15 +1,18 @@
 package war.moves;
 
 public abstract class Move {
-    String type;
+    private String type;
+    private Resource.Resources[] cost;
 
-    public Move(String type) {
+    public Move(String type, Resource.Resources[] cost) {
         this.type = type;
+        this.cost = cost;
     }
 
     public String getType() {
         return type;
     }
+    public Resource.Resources[] getCost() { return cost; }
 }
 
 

@@ -2,7 +2,7 @@ package war.moves;
 
 public class Block extends Defense implements Resource {
     public Block() {
-        super("Block");
+        super("Block", new Resources[]{});
     }
 
     @Override
