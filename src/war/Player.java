@@ -61,8 +61,9 @@ public class Player {
         }
     }
 
-    // input from console
     public ArrayList<Move> inputMove() {
+        boolean isAttack = false;
+        boolean isResource = false;
         Scanner s = new Scanner(System.in);
         System.out.println("Enter Moves");
         String input = s.nextLine();
@@ -70,29 +71,67 @@ public class Player {
         // if inputMove is Attack, ask target
         ArrayList<Move> moves = new ArrayList<Move>();
         for(String i : inputList) {
-            moves.add(parseInput(i));
+            Move move = parseInput(i);
+            // isAttack
+            if(!isAttack && move instanceof Attack) {
+                isAttack = true;
+            }
+            // checkValidity in different method
+            if(checkValidity(move, isAttack, isResource, havePewCharge)) {
+                moves.add(move);
+            }
+            // isResource
+            if(!isResource && move instanceof Resource && !(move instanceof PewCharge)) {
+                isResource = true;
+            }
+            // havePewCharge
+            if(move instanceof PewCharge) {
+                havePewCharge = false;
+            }
         }
         return moves;
     }
 
+    public boolean checkValidity(Move move, boolean isAttack, boolean isResource, boolean havePewCharge) {
+        if(!havePewCharge) {
+            if(move instanceof PewCharge) {
+                throw new IllegalArgumentException("One PewCharge per game");
+            }
+        }
+        if(isAttack) {
+            if(!(move instanceof Attack)) {
+                throw new IllegalArgumentException("If attacking, all moves must be attacks");
+            }
+        }
+        if(isResource) {
+            throw new IllegalArgumentException("Can only do one move if resource");
+        }
+        return true;
+    }
+
+    // read input, should be in form BA P PC = Bazooka Pew PewCharge, caps doesn't matter
     public Move parseInput(String string) {
         switch(string) {
+            // Charge
+            case "c":
+            case "C":
+                return new Charge();
             // Pew
             case "p":
             case "P":
                 return new Pew(target);
-//            case "PC":
-//            case "pc":
-//                check pewcharge availability here??
-//                return new PewCharge(target);
-//                break;
+            // PewCharge
+            case "pc":
+            case "PC":
+                return new PewCharge(target);
             // Block
             case "b":
             case "B":
                 return new Block();
             // Doesn't fit a shortcut
             default:
-                throw new IllegalArgumentException("Invalid shortcut for a Move");
+                // TODO: Handle properly, don't just throw error but ask again
+                throw new IllegalArgumentException("Invalid shortcut for a Move: " + string);
         }
     }
 
@@ -161,6 +200,13 @@ public class Player {
 
     public int smokes() {
         return smokeCount;
+    }
+
+    public String listResources() {
+        return "Charges: " + charges() + "\n" +
+                "Blocks: " + blocks() + "\n" +
+                "Doubles: " + doubles() + "\n" +
+                "Smokes: " + smokes() + "\n";
     }
 
     public Player getTarget() {

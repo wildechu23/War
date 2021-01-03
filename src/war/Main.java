@@ -9,12 +9,14 @@ public class Main {
 
         Game game = new Game(2);
 
-        for(Player player : game.players) {
-            player.turn();
-            System.out.println(player.getName());
-            System.out.println("Attack: " + player.attack);
-            System.out.println("Defense: " + player.defense);
-            System.out.println("Blocks: " + player.blocks());
+        for(int i = 0; i < 2; i++) {
+            for (Player player : game.players) {
+                player.turn();
+                System.out.println(player.getName());
+                System.out.println("Attack: " + player.attack);
+                System.out.println("Defense: " + player.defense);
+                System.out.println(player.listResources());
+            }
         }
 
 //        while(running) {

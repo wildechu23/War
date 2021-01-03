@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class Game {
     int turn;
-    public static ArrayList<Row> moves = new ArrayList<Row>();
+    public static ArrayList<Row> moves = new ArrayList<>();
     Player[] players;
 
     public Game(int numPlayers) {
@@ -20,6 +20,7 @@ public class Game {
     }
 
 
+    // is this needed?
     public static void parseMoves(String file) {
         File f = new File(file);
         try {
@@ -37,6 +38,7 @@ public class Game {
         }
     }
 
+    // moves table row class
     public static class Row {
         private String type, costType;
         private int cost, attack, defense, charges, blocks, doubles, smokes;
