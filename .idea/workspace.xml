@@ -2,11 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="850f5827-404c-4f6a-926e-3d72d2a75d0a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/war/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/war/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/war/moves/Attack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/war/moves/Attack.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/war/moves/Block.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/war/moves/Block.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/war/moves/Defense.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/war/moves/Defense.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/war/moves/Move.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/war/moves/Move.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/war/moves/Bazooka.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/war/moves/Bionic.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/war/moves/Double.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/war/moves/Flamethrower.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/war/moves/Sniper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/war/moves/Unbreakable.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -29,14 +30,14 @@
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="gitignore" value="1" />
-          <entry key="java" value="17" />
+          <entry key="java" value="25" />
           <entry key="txt" value="2" />
           <entry key="xml" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="JAVA" value="17" />
+          <entry key="JAVA" value="25" />
           <entry key="PLAIN_TEXT" value="3" />
           <entry key="XML" value="1" />
         </counts>
@@ -44,13 +45,13 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="dummy" value="9" />
-          <entry key="java" value="9373" />
+          <entry key="java" value="9900" />
           <entry key="txt" value="761" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="9373" />
+          <entry key="JAVA" value="9900" />
           <entry key="PLAIN_TEXT" value="770" />
         </counts>
       </usages-collector>
@@ -59,31 +60,10 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/war/Main.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="205">
-              <caret line="17" column="37" selection-start-line="17" selection-start-column="37" selection-end-line="17" selection-end-column="37" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/war/Game.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="20" lean-forward="true" selection-start-line="20" selection-end-line="20" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/war/Player.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="93" lean-forward="true" selection-start-line="93" selection-end-line="93" />
+            <state relative-caret-position="103">
+              <caret line="118" column="36" lean-forward="true" selection-start-line="118" selection-start-column="36" selection-end-line="118" selection-end-column="36" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1724#1730#0" expanded="true" />
@@ -117,10 +97,94 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/war/moves/Bazooka.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="6" column="19" selection-start-line="6" selection-start-column="19" selection-end-line="6" selection-end-column="19" />
+              <folding>
+                <element signature="e#98#99#0" expanded="true" />
+                <element signature="e#122#123#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/war/moves/Flamethrower.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="105">
+              <caret line="7" column="5" lean-forward="true" selection-start-line="7" selection-start-column="5" selection-end-line="7" selection-end-column="5" />
+              <folding>
+                <element signature="e#290#291#0" expanded="true" />
+                <element signature="e#314#315#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/war/moves/Double.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="60">
+              <caret line="4" column="74" selection-start-line="4" selection-start-column="74" selection-end-line="4" selection-end-column="74" />
+              <folding>
+                <element signature="e#98#99#0" expanded="true" />
+                <element signature="e#135#136#0" expanded="true" />
+                <element signature="e#120#121#0" expanded="true" />
+                <element signature="e#144#145#0" expanded="true" />
+                <element signature="e#196#197#0" expanded="true" />
+                <element signature="e#235#236#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/war/moves/Unbreakable.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="165">
+              <caret line="11" column="16" selection-start-line="11" selection-start-column="16" selection-end-line="11" selection-end-column="16" />
+              <folding>
+                <element signature="e#102#103#0" expanded="true" />
+                <element signature="e#126#127#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/war/moves/Bionic.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="210">
+              <caret line="14" column="65" selection-start-line="14" selection-start-column="65" selection-end-line="14" selection-end-column="65" />
+              <folding>
+                <element signature="e#120#121#0" expanded="true" />
+                <element signature="e#144#145#0" expanded="true" />
+                <element signature="e#196#197#0" expanded="true" />
+                <element signature="e#235#236#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/war/moves/Sniper.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="105">
+              <caret line="7" column="32" lean-forward="true" selection-start-line="7" selection-start-column="32" selection-end-line="7" selection-end-column="32" />
+              <folding>
+                <element signature="e#97#98#0" expanded="true" />
+                <element signature="e#121#122#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/war/moves/PewCharge.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="18" lean-forward="true" selection-start-column="18" selection-end-column="18" />
+            <state relative-caret-position="90">
+              <caret line="6" column="44" selection-start-line="6" selection-start-column="44" selection-end-line="6" selection-end-column="44" />
               <folding>
                 <element signature="e#149#150#0" expanded="true" />
                 <element signature="e#184#185#0" expanded="true" />
@@ -133,11 +197,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/war/moves/Block.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="4" column="39" selection-start-line="4" selection-start-column="39" selection-end-line="4" selection-end-column="39" />
+            <state relative-caret-position="120">
+              <caret line="10" column="5" lean-forward="true" selection-start-line="10" selection-start-column="5" selection-end-line="10" selection-end-column="5" />
               <folding>
                 <element signature="e#96#97#0" expanded="true" />
                 <element signature="e#128#129#0" expanded="true" />
@@ -147,54 +211,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/war/moves/Charge.java">
+        <entry file="file://$PROJECT_DIR$/src/war/moves/Pew.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="10" column="5" lean-forward="true" selection-start-line="10" selection-start-column="5" selection-end-line="10" selection-end-column="5" />
-              <folding>
-                <element signature="e#109#110#0" expanded="true" />
-                <element signature="e#136#137#0" expanded="true" />
-                <element signature="e#120#121#0" expanded="true" />
-                <element signature="e#144#145#0" expanded="true" />
-                <element signature="e#196#197#0" expanded="true" />
-                <element signature="e#235#236#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/war/moves/Move.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="14" column="57" selection-start-line="14" selection-start-column="57" selection-end-line="14" selection-end-column="57" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/war/moves/Defense.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="6" column="24" selection-start-line="6" selection-start-column="24" selection-end-line="6" selection-end-column="24" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/war/moves/Resource.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="5" column="4" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="4" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/war/moves/Attack.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="14" column="24" lean-forward="true" selection-start-line="14" selection-start-column="24" selection-end-line="14" selection-end-column="24" />
+            <state relative-caret-position="105">
+              <caret line="9" column="13" lean-forward="true" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -213,6 +233,9 @@
     <findStrings>
       <find>Charge</find>
     </findStrings>
+    <dirStrings>
+      <dir>$PROJECT_DIR$/src/war/moves</dir>
+    </dirStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -229,17 +252,23 @@
         <option value="$PROJECT_DIR$/src/moves/Move.java" />
         <option value="$PROJECT_DIR$/src/moves/Attack.java" />
         <option value="$PROJECT_DIR$/src/war/moves/attacks/Pew.java" />
-        <option value="$PROJECT_DIR$/src/war/moves/Pew.java" />
         <option value="$PROJECT_DIR$/src/war/moves/Resource.java" />
         <option value="$PROJECT_DIR$/src/war/Game.java" />
-        <option value="$PROJECT_DIR$/src/war/moves/Charge.java" />
-        <option value="$PROJECT_DIR$/src/war/moves/PewCharge.java" />
         <option value="$PROJECT_DIR$/src/war/Main.java" />
-        <option value="$PROJECT_DIR$/src/war/Player.java" />
         <option value="$PROJECT_DIR$/src/war/moves/Move.java" />
         <option value="$PROJECT_DIR$/src/war/moves/Attack.java" />
         <option value="$PROJECT_DIR$/src/war/moves/Defense.java" />
         <option value="$PROJECT_DIR$/src/war/moves/Block.java" />
+        <option value="$PROJECT_DIR$/src/war/moves/Charge.java" />
+        <option value="$PROJECT_DIR$/src/war/moves/Pew.java" />
+        <option value="$PROJECT_DIR$/src/war/moves/PewCharge.java" />
+        <option value="$PROJECT_DIR$/src/war/Player.java" />
+        <option value="$PROJECT_DIR$/src/war/moves/Bazooka.java" />
+        <option value="$PROJECT_DIR$/src/war/moves/Flamethrower.java" />
+        <option value="$PROJECT_DIR$/src/war/moves/Double.java" />
+        <option value="$PROJECT_DIR$/src/war/moves/Sniper.java" />
+        <option value="$PROJECT_DIR$/src/war/moves/Unbreakable.java" />
+        <option value="$PROJECT_DIR$/src/war/moves/Bionic.java" />
       </list>
     </option>
   </component>
@@ -289,7 +318,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1609640184224" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1609641351028" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
@@ -427,55 +456,11 @@
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/war/moves/attacks/Pew.java" />
-    <entry file="file://$PROJECT_DIR$/src/war/moves/Pew.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="6" column="19" selection-start-line="6" selection-start-column="19" selection-end-line="6" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/war/moves/Resource.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="4" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/war/moves/Charge.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="5" lean-forward="true" selection-start-line="10" selection-start-column="5" selection-end-line="10" selection-end-column="5" />
-          <folding>
-            <element signature="e#109#110#0" expanded="true" />
-            <element signature="e#136#137#0" expanded="true" />
-            <element signature="e#120#121#0" expanded="true" />
-            <element signature="e#144#145#0" expanded="true" />
-            <element signature="e#196#197#0" expanded="true" />
-            <element signature="e#235#236#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/war/moves/PewCharge.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="18" lean-forward="true" selection-start-column="18" selection-end-column="18" />
-          <folding>
-            <element signature="e#149#150#0" expanded="true" />
-            <element signature="e#184#185#0" expanded="true" />
-            <element signature="e#120#121#0" expanded="true" />
-            <element signature="e#144#145#0" expanded="true" />
-            <element signature="e#196#197#0" expanded="true" />
-            <element signature="e#235#236#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/war/Main.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -494,10 +479,78 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/war/moves/moves.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="7" lean-forward="true" selection-start-line="3" selection-start-column="7" selection-end-line="3" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/war/moves/Attack.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="14" column="24" lean-forward="true" selection-start-line="14" selection-start-column="24" selection-end-line="14" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/war/moves/Defense.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="24" selection-start-line="6" selection-start-column="24" selection-end-line="6" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/war/moves/Resource.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="4" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/war/moves/Charge.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="41" selection-start-line="4" selection-start-column="41" selection-end-line="4" selection-end-column="41" />
+          <folding>
+            <element signature="e#109#110#0" expanded="true" />
+            <element signature="e#136#137#0" expanded="true" />
+            <element signature="e#120#121#0" expanded="true" />
+            <element signature="e#144#145#0" expanded="true" />
+            <element signature="e#196#197#0" expanded="true" />
+            <element signature="e#235#236#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/war/moves/Move.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="14" column="57" selection-start-line="14" selection-start-column="57" selection-end-line="14" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/war/moves/Pew.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="9" column="13" lean-forward="true" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/war/moves/Block.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="10" column="5" lean-forward="true" selection-start-line="10" selection-start-column="5" selection-end-line="10" selection-end-column="5" />
+          <folding>
+            <element signature="e#96#97#0" expanded="true" />
+            <element signature="e#128#129#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/war/Player.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="93" lean-forward="true" selection-start-line="93" selection-end-line="93" />
+        <state relative-caret-position="103">
+          <caret line="118" column="36" lean-forward="true" selection-start-line="118" selection-start-column="36" selection-end-line="118" selection-end-column="36" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#1724#1730#0" expanded="true" />
@@ -529,41 +582,89 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/war/moves/moves.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="7" lean-forward="true" selection-start-line="3" selection-start-column="7" selection-end-line="3" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/war/moves/Move.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="14" column="57" selection-start-line="14" selection-start-column="57" selection-end-line="14" selection-end-column="57" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/war/moves/Attack.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="24" lean-forward="true" selection-start-line="14" selection-start-column="24" selection-end-line="14" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/war/moves/Defense.java">
+    <entry file="file://$PROJECT_DIR$/src/war/moves/Bazooka.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
-          <caret line="6" column="24" selection-start-line="6" selection-start-column="24" selection-end-line="6" selection-end-column="24" />
+          <caret line="6" column="19" selection-start-line="6" selection-start-column="19" selection-end-line="6" selection-end-column="19" />
+          <folding>
+            <element signature="e#98#99#0" expanded="true" />
+            <element signature="e#122#123#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/war/moves/Block.java">
+    <entry file="file://$PROJECT_DIR$/src/war/moves/PewCharge.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="44" selection-start-line="6" selection-start-column="44" selection-end-line="6" selection-end-column="44" />
+          <folding>
+            <element signature="e#149#150#0" expanded="true" />
+            <element signature="e#184#185#0" expanded="true" />
+            <element signature="e#120#121#0" expanded="true" />
+            <element signature="e#144#145#0" expanded="true" />
+            <element signature="e#196#197#0" expanded="true" />
+            <element signature="e#235#236#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/war/moves/Flamethrower.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="5" lean-forward="true" selection-start-line="7" selection-start-column="5" selection-end-line="7" selection-end-column="5" />
+          <folding>
+            <element signature="e#290#291#0" expanded="true" />
+            <element signature="e#314#315#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/war/moves/Sniper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="32" lean-forward="true" selection-start-line="7" selection-start-column="32" selection-end-line="7" selection-end-column="32" />
+          <folding>
+            <element signature="e#97#98#0" expanded="true" />
+            <element signature="e#121#122#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/war/moves/Double.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
-          <caret line="4" column="39" selection-start-line="4" selection-start-column="39" selection-end-line="4" selection-end-column="39" />
+          <caret line="4" column="74" selection-start-line="4" selection-start-column="74" selection-end-line="4" selection-end-column="74" />
           <folding>
-            <element signature="e#96#97#0" expanded="true" />
-            <element signature="e#128#129#0" expanded="true" />
+            <element signature="e#98#99#0" expanded="true" />
+            <element signature="e#135#136#0" expanded="true" />
+            <element signature="e#120#121#0" expanded="true" />
+            <element signature="e#144#145#0" expanded="true" />
+            <element signature="e#196#197#0" expanded="true" />
+            <element signature="e#235#236#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/war/moves/Unbreakable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="16" selection-start-line="11" selection-start-column="16" selection-end-line="11" selection-end-column="16" />
+          <folding>
+            <element signature="e#102#103#0" expanded="true" />
+            <element signature="e#126#127#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/war/moves/Bionic.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="14" column="65" selection-start-line="14" selection-start-column="65" selection-end-line="14" selection-end-column="65" />
+          <folding>
+            <element signature="e#120#121#0" expanded="true" />
+            <element signature="e#144#145#0" expanded="true" />
+            <element signature="e#196#197#0" expanded="true" />
+            <element signature="e#235#236#0" expanded="true" />
           </folding>
         </state>
       </provider>
