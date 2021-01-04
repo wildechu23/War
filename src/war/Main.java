@@ -9,10 +9,9 @@ public class Main {
 
         Game game = new Game(2);
 
-        for(int i = 0; i < 2; i++) {
+        while(Game.getPlayers().size() > 1) {
             game.round();
         }
-
 //        while(running) {
 //
 //        }

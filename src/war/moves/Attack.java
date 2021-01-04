@@ -13,4 +13,8 @@ public abstract class Attack extends Move {
     }
 
     abstract public int damageOf();
+
+    public Player getTarget() {
+        return target;
+    }
 }

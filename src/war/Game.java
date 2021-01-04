@@ -1,5 +1,9 @@
 package war;
 
+import war.moves.Attack;
+import war.moves.Defense;
+import war.moves.Move;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -8,24 +12,82 @@ import java.util.Scanner;
 public class Game {
     int turn;
     public static ArrayList<Row> moves = new ArrayList<>();
-    Player[] players;
+    private static ArrayList<Player> players;
 
     public Game(int numPlayers) {
-        players = new Player[numPlayers];
+        players = new ArrayList<>();
         turn = 0;
         parseMoves("src/war/moves/moves.txt");
         for(int i = 0; i < numPlayers; i++) {
-            players[i] = new Player("Player" + (i + 1)); // placeholder name;
+            players.add(new Player("Player" + (i + 1))); // placeholder name;
         }
     }
 
     public void round() {
         for (Player player : players) {
-            player.turn();
-            System.out.println(player.getName());
-            System.out.println("Attack: " + player.attack);
-            System.out.println("Defense: " + player.defense);
-            System.out.println(player.listResources());
+            if(player.isAlive()) {
+                player.turn();
+                System.out.println(player.getName());
+                System.out.println("Attack: " + player.attack);
+                System.out.println("Defense: " + player.defense);
+                System.out.println(player.listResources());
+            } else {
+                players.remove(player);
+            }
+        }
+        // TODO: FIGHT FIGHT FIGHT FIGHT
+        fight();
+    }
+
+    public void fight() {
+        // each interaction once
+        for(int i = 0; i < players.size(); i++) {
+            Player player1 = players.get(i);
+            for(int j = i + 1; j < players.size(); j++) {
+                int attack1 = 0, attack2 = 0, defense1 = 0, defense2 = 0;
+                Player player2 = players.get(j);
+                System.out.println("Player 1: " + player1.getName());
+                System.out.println("Player 2: " + player2.getName());
+
+                // Player 1 strength
+                for(Move move : player1.getMoves()) {
+                    System.out.println(move);
+                    if(move instanceof Attack) {
+                        if (player2.getName() == ((Attack) move).getTarget().getName()) {
+                            attack1 += ((Attack) move).damageOf();
+                        }
+                    }
+                    if(move instanceof Defense) {
+                        defense1 += ((Defense) move).strengthOf();
+                    }
+                }
+
+                //Player 2 strength
+                for(Move move : player2.getMoves()) {
+                    System.out.println(move);
+                    if(move instanceof Attack) {
+                        if (player1.getName() == ((Attack) move).getTarget().getName()) {
+                            attack2 += ((Attack) move).damageOf();
+                        }
+                    }
+                    if(move instanceof Defense) {
+                        defense2 += ((Defense) move).strengthOf();
+                    }
+                }
+
+                System.out.println("Attack1: " + attack1 + ", Defense1: " + defense1);
+                System.out.println("Attack2: " + attack2 + ", Defense2: " + defense2);
+
+                if(attack1 > attack2 + defense2) {
+                    player2.kill(); // if player 1 attack is greater than player 2 strength, kill player 2
+                    System.out.println(player2.getName() + " was killed by " + player1.getName());
+                } else if (attack2 > attack1 + defense1) {
+                    player1.kill(); // if player 2 attack is greater than player 1 strength, kill player 1
+                    System.out.println(player1.getName() + " was killed by " + player2.getName());
+                } else {
+                    //leave alone;
+                }
+            }
         }
     }
 
@@ -75,5 +137,9 @@ public class Game {
         public int getBlocks() { return blocks; }
         public int getDoubles() { return doubles; }
         public int getSmokes() { return smokes; }
+    }
+
+    public static ArrayList<Player> getPlayers() {
+        return players;
     }
 }

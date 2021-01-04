@@ -13,6 +13,11 @@ public abstract class Move {
         return type;
     }
     public Resource.Resources[] getCost() { return cost; }
+
+    @Override
+    public String toString() {
+        return type;
+    }
 }
 
 
