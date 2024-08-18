@@ -1,3 +1,4 @@
+import uuid
 from flask import Flask, render_template, request
 from flask_socketio import SocketIO, emit, join_room, leave_room
 
@@ -5,36 +6,71 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = '17190874a96010c7f46d80aa94a4c3662eeed60fa14ae121'
 socketio = SocketIO(app)
 
-rooms_users = {}
-rooms_leaders = {}
+from flask import Flask, render_template
+from flask_socketio import SocketIO, join_room, leave_room, emit
 
-@app.route("/")
+app = Flask(__name__)
+app.config['SECRET_KEY'] = 'your_secret_key'
+socketio = SocketIO(app)
+
+@app.route('/')
 def index():
     return render_template('index.html')
 
-@socketio.on('connect')
-def handle_connect():
-    print('Client connected')
-    emit('update_rooms', {'users': rooms_users})
-    
+rooms = {}
 
-@socketio.on('disconnect')
-def handle_disconnect():
-    print('Client disconnected')
+def create_room(room_id):
+    rooms[room_id] = {
+        'players': [],
+        'leader': '',
+        'state': 'waiting',  # or 'playing', 'finished', etc.
+    }
+
+@socketio.on('create_room')
+def on_create_room(data):
+    room_id = str(uuid.uuid4())
+    print(room_id)
+    player_id = data['player_id']
+
+    if room_id not in rooms:
+        create_room(room_id)
+        rooms[room_id]['players'].append(player_id)
+        join_room(room_id)
+        emit('room_joined', { 'room_id': room_id })
+        emit('player_joined', {'player_id': player_id}, room=room_id)
+    else:
+        emit('error', {'message': 'Room already exists'})
 
 @socketio.on('join_room')
-def handle_join_room(data):
-    room = data['room']
-    join_room(room)
-    if room not in rooms_users:
-        rooms_users[room] = []
-        rooms_leaders[room] = request.sid
-    rooms_users[room].append(request.sid)
-    emit('update_users', {
-        'users': rooms_users[room],
-        'leader': rooms_leaders[room]
-    }, room=room)
+def on_join(data):
+    room_id = data['room_id']
+    player_id = data['player_id']
+
+    room = rooms.get(room_id)
+    if room:
+        join_room(room_id)
+        room['players'].append(player_id)
+        emit('player_joined', {'player_id': player_id}, room=room_id)
+    else:
+        # Handle room not found
+        pass
+
+@socketio.on('leave_room')
+def on_leave(data):
+    room_id = data['room_id']
+    player_id = data['player_id']
+
+    room = rooms.get(room_id)
+    if room:
+        leave_room(room_id)
+        room['players'].remove(player_id)
+        emit('player_left', {'player_id': player_id}, room=room_id)
+
+@socketio.on('get_rooms')
+def on_get_rooms():
+    available_rooms = [room_id for room_id, room in rooms.items() if room['state'] == 'waiting']
+    emit('rooms_list', available_rooms)
+        
 
 if __name__ == '__main__':
-    socketio.run(app)
-
+    socketio.run(app, debug=True)

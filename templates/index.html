@@ -12,14 +12,17 @@
     <body>
         <div id="login">
             <h1>Stinky</h1>
-            <button type="button" id="button1">Join 1</button>
-            <ul id="roomList">
+            <input type="text" id="player_id" placeholder="Enter Player ID">
+            <button type="button" id="create_room">Create Room</button>
+            <h2>Available Rooms</h2>
+            <ul id="rooms_list">
                 <!-- List of rooms will be dynamically updated here -->
             </ul>
         </div>
         <div id="room" style="display: none;">
-            <h1 id="roomTitle"></h1>
-            <ul id="userList">
+            <h1 id="current_room"></h1>
+            <button type="button" id="startGame">Start</button>
+            <ul id="player_list">
                 <!-- List of users will be dynamically updated here -->
             </ul>
         </div>
