@@ -1,0 +1,7 @@
+:root {
+    background-color: red;
+}
+
+li.leader:after {
+    content: "\2605";
+}
