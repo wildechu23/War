@@ -1,13 +1,11 @@
 import uuid
-from flask import Flask, render_template, request
-from flask_socketio import SocketIO, emit, join_room, leave_room
+from flask import Flask, render_template
+from flask_socketio import SocketIO, emit, join_room, leave_room, close_room
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '17190874a96010c7f46d80aa94a4c3662eeed60fa14ae121'
 socketio = SocketIO(app)
 
-from flask import Flask, render_template
-from flask_socketio import SocketIO, join_room, leave_room, emit
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key'
@@ -48,9 +46,14 @@ def on_join(data):
 
     room = rooms.get(room_id)
     if room:
+        emit('player_joined', {'player_id': player_id}, room=room_id)
+        
         join_room(room_id)
         room['players'].append(player_id)
-        emit('player_joined', {'player_id': player_id}, room=room_id)
+        emit('room_joined', { 
+            'room_id': room_id, 
+            'players': room['players']
+        })
     else:
         # Handle room not found
         pass
@@ -62,9 +65,15 @@ def on_leave(data):
 
     room = rooms.get(room_id)
     if room:
+        emit('room_left')
         leave_room(room_id)
         room['players'].remove(player_id)
         emit('player_left', {'player_id': player_id}, room=room_id)
+
+        if(len(room['players']) == 0):
+            close_room(room_id)
+            del rooms[room_id]
+        
 
 @socketio.on('get_rooms')
 def on_get_rooms():

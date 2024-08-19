@@ -15,13 +15,15 @@
             <input type="text" id="player_id" placeholder="Enter Player ID">
             <button type="button" id="create_room">Create Room</button>
             <h2>Available Rooms</h2>
+            <button type="button" id="refresh_rooms">Refresh Rooms</button>
             <ul id="rooms_list">
                 <!-- List of rooms will be dynamically updated here -->
             </ul>
         </div>
         <div id="room" style="display: none;">
             <h1 id="current_room"></h1>
-            <button type="button" id="startGame">Start</button>
+            <button type="button" id="leave_room">Leave Room</button>
+            <button type="button" id="start_game">Start</button>
             <ul id="player_list">
                 <!-- List of users will be dynamically updated here -->
             </ul>
