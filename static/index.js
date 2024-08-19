@@ -17,9 +17,9 @@ socket.on('rooms_list', function(rooms) {
         var button = document.createElement("button");
         button.innerHTML = "Join Room";
         button.addEventListener('click', () => join_room(room));
-        li.appendChild(button);
+        li.append(button);
 
-        roomsListElement.appendChild(li);
+        roomsListElement.append(li);
     });
 });
 
@@ -52,6 +52,10 @@ socket.on('room_joined', function(data) {
     document.getElementById('login').style.display = 'none';
     document.getElementById('room').style.display = 'block';
     document.getElementById('current_room').textContent = 'Room ID: ' + current_room;
+    console.log(data.leader);
+    if(data.leader === player_id) {
+        document.getElementById('start_game').disabled = false;
+    }
     
     var playerList = document.getElementById('player_list');
     playerList.innerHTML = '';
@@ -59,7 +63,7 @@ socket.on('room_joined', function(data) {
         players.forEach(function(player) {
             var li = document.createElement('li');
             li.textContent = player;
-            playerList.appendChild(li);
+            playerList.append(li);
         });
     }
 })
@@ -82,7 +86,7 @@ socket.on('player_joined', function(data) {
     li.textContent = new_player_id;
     li.id = 'player-' + new_player_id;
 
-    playerListElement.appendChild(li);
+    playerListElement.append(li);
 });
 
 socket.on('player_left', function(data) {
@@ -97,10 +101,64 @@ socket.on('player_left', function(data) {
     }
 });
 
+socket.on('start_game', function(data) {
+    // var playerList = document.getElementById('game_players');
+    // playerList.innerHTML = '';
+    // data.players.forEach(function(player) {
+    //     var li = document.createElement('li');
+    //     li.textContent = player;
+    //     playerList.append(li);
+    // });
+    document.getElementById('room').style.display = 'none';
+    document.getElementById('game').style.display = 'block';
+});
 
-document.getElementById('create_room').addEventListener('click', () => create_room());
-document.getElementById('refresh_rooms').addEventListener('click', () => socket.emit('get_rooms'));
-document.getElementById('leave_room').addEventListener('click', () => leave_room());
+socket.on('update_game', function(data) {
+    var gameState = document.getElementById('game_state');
+    var tbodyRef = gameState.getElementsByTagName('tbody')[0];
+    tbodyRef.innerHTML = '';
+    data.players.forEach(function(player) {
+        var tr = document.createElement('tr');
+        for (const [key, value] of Object.entries(player)) {
+            var td = document.createElement('td');
+            td.textContent = value;
+            tr.append(td);
+        }
+        if(player['id'] == player_id) {
+            tr.style.backgroundColor = 'rgba(150, 212, 212, 0.4)';
+            tbodyRef.prepend(tr);
+        } else {
+            tbodyRef.append(tr);
+        }
+    });
+});
+
+function submit_move() {
+    var str = document.getElementById('move_list').value;
+    var target = document.getElementById('move_target').value;
+    var moves = str.split(',');
+    socket.emit('submit_move', {
+        room_id: current_room,
+        player_id: player_id,
+        moves: moves,
+        target: target,
+    })
+}
+
+
 document.getElementById('player_id').addEventListener('change', function() {
     player_id = this.value;
 });
+
+document.getElementById('create_room').addEventListener('click', () => create_room());
+document.getElementById('refresh_rooms').addEventListener('click', () => 
+    socket.emit('get_rooms')
+);
+
+document.getElementById('leave_room').addEventListener('click', () => leave_room());
+document.getElementById('start_game').addEventListener('click', () => 
+    socket.emit('start_game', {room_id: current_room})
+);
+
+
+document.getElementById('submit_move').addEventListener('click', () => submit_move());

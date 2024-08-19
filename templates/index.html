@@ -23,10 +23,33 @@
         <div id="room" style="display: none;">
             <h1 id="current_room"></h1>
             <button type="button" id="leave_room">Leave Room</button>
-            <button type="button" id="start_game">Start</button>
+            <button type="button" id="start_game" disabled>Start</button>
             <ul id="player_list">
                 <!-- List of users will be dynamically updated here -->
             </ul>
+        </div>
+        <div id="game" style="display: none;">
+            <div style="padding: 20px;">
+                <label for="move_list">Input Moves</label>
+                <input type="text" id="move_list">
+                <label for="move_target">Target</label>
+                <input type="text" id="move_target">
+                <button type="button" id="submit_move">Submit</button>
+            </div>
+            <table id="game_state" style="width: 70%;">
+                <thead>
+                    <tr>
+                      <th>Player</th>
+                      <th>Charges</th>
+                      <th>Blocks</th>
+                      <th>Magical Shards</th>
+                      <th>Fumes</th>
+                      <th>Doubles</th>
+                      <th>Pew-Charge</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+            </table>
         </div>
         <script src="{{url_for('static', filename='index.js')}}"></script>
     </body>
