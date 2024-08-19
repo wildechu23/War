@@ -1,6 +1,8 @@
 import uuid
 from flask import Flask, render_template
 from flask_socketio import SocketIO, emit, join_room, leave_room, close_room
+# from game import *
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '17190874a96010c7f46d80aa94a4c3662eeed60fa14ae121'
