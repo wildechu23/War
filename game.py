@@ -203,7 +203,7 @@ def EvaluateWarGame(PlayerList, PlayerResources, PlayerMoves, PlayerProfiles):
     else:
         return([{'Game State': 'Game is Ongoing'}, {'Eliminated Players': EliminatedPlayers}, {'Remaining Players': NonEliminatedPlayers}, {'Remaining Player Resources': PlayerResources}, {'Updated Player Profiles': PlayerProfiles}])
 #%%
-'''Test Example (PlayerList, PlayerResources, PlayerMoves'''
+'''Test Example (PlayerList, PlayerProfiles, PlayerResources, PlayerMoves)'''
 
 NumPlayers = 3
 
@@ -233,13 +233,10 @@ ExamplePlayerMoves = {'Player 1': {'Moves':['Smoke'], 'Target': ''}, 'Player 2':
 ExampleOutputData = EvaluateWarGame(ExamplePlayerList, ExamplePlayerResources, ExamplePlayerMoves, ExamplePlayerProfiles)
 
 
-    
 #Future coding
-##kill credit
 ##achievements
       
             
         
 
-    
     
