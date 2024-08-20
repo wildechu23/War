@@ -1,7 +1,7 @@
 import uuid
 from flask import Flask, render_template
 from flask_socketio import SocketIO, emit, join_room, leave_room, close_room
-# from game import *
+from game import EvaluateWarGame
 
 
 app = Flask(__name__)
@@ -26,24 +26,21 @@ def create_game(room_id, players):
     games[room_id] = {
         'round': 1,
         'mode': 'default',
-        'players': [],
+        'players': {},
         'moves': {},
         'alive': {}
     }
     for player in players:
-        games[room_id]['players'].append({
-            'id': player,
+        games[room_id]['players'][player] = {
             'charges': 0,
             'blocks': 0,
             'magical shards': 0,
             'fumes': 0,
             'doubles': 0,
             'pew-charge': 1,
-        })
+        }
         games[room_id]['moves'][player] = None
         games[room_id]['alive'][player] = True
-
-    
 
 
 @socketio.on('create_room')
@@ -125,7 +122,7 @@ def on_submit_move(data):
         process_moves(game['moves'])
         game['round'] += 1
         emit('update_game', game, room=room_id)
-        game['moves'] = {}
+        game['moves'] = dict.fromkeys(game['moves'], None)
 
         alive_players = [player_id for player_id, alive in game['alive'].items() if alive]
         if len(alive_players) <= 1:

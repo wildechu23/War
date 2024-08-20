@@ -114,8 +114,12 @@ socket.on('update_game', function(game) {
     var gameState = document.getElementById('game_state');
     var tbodyRef = gameState.getElementsByTagName('tbody')[0];
     tbodyRef.innerHTML = '';
-    game.players.forEach(function(player) {
+    for (const [id, player] of Object.entries(game.players)) {
         var tr = document.createElement('tr');
+        var idElement = document.createElement('td');
+        idElement.textContent = idElement;
+        tr.append(id);
+
         for (const [key, value] of Object.entries(player)) {
             var td = document.createElement('td');
             td.textContent = value;
@@ -123,21 +127,21 @@ socket.on('update_game', function(game) {
         }
 
         var lastMove = document.createElement('td');
-        if(game.moves[player_id]) {
-            lastMove.textContent = game.moves[player_id].moves.join();
+        if(game.moves[id]) {
+            lastMove.textContent = game.moves[id].moves.join();
         }
         tr.append(lastMove);
         
         if(game.alive[player_id] == false) {
             tr.style.backgroundColor = 'gray';
             tbodyRef.append(tr);
-        } else if(player['id'] == player_id) {
+        } else if(id == player_id) {
             tr.style.backgroundColor = 'rgba(150, 212, 212, 0.4)';
             tbodyRef.prepend(tr);
         } else {
             tbodyRef.append(tr);
         }
-    });
+    }
 });
 
 socket.on('end_game', function(data) {
