@@ -102,29 +102,36 @@ socket.on('player_left', function(data) {
 });
 
 socket.on('start_game', function(data) {
-    // var playerList = document.getElementById('game_players');
-    // playerList.innerHTML = '';
-    // data.players.forEach(function(player) {
-    //     var li = document.createElement('li');
-    //     li.textContent = player;
-    //     playerList.append(li);
-    // });
     document.getElementById('room').style.display = 'none';
     document.getElementById('game').style.display = 'block';
 });
 
-socket.on('update_game', function(data) {
+
+socket.on('update_game', function(game) {
+    var roundNumber = document.getElementById('round_number');
+    roundNumber.innerHTML = 'Round ' + game.round;
+
     var gameState = document.getElementById('game_state');
     var tbodyRef = gameState.getElementsByTagName('tbody')[0];
     tbodyRef.innerHTML = '';
-    data.players.forEach(function(player) {
+    game.players.forEach(function(player) {
         var tr = document.createElement('tr');
         for (const [key, value] of Object.entries(player)) {
             var td = document.createElement('td');
             td.textContent = value;
             tr.append(td);
         }
-        if(player['id'] == player_id) {
+
+        var lastMove = document.createElement('td');
+        if(game.moves[player_id]) {
+            lastMove.textContent = game.moves[player_id].moves.join();
+        }
+        tr.append(lastMove);
+        
+        if(game.alive[player_id] == false) {
+            tr.style.backgroundColor = 'gray';
+            tbodyRef.append(tr);
+        } else if(player['id'] == player_id) {
             tr.style.backgroundColor = 'rgba(150, 212, 212, 0.4)';
             tbodyRef.prepend(tr);
         } else {
@@ -132,6 +139,17 @@ socket.on('update_game', function(data) {
         }
     });
 });
+
+socket.on('end_game', function(data) {
+    var winner = data.winner;
+    if(winner) {
+        alert(winner + " wins!")
+    } else {
+        alert("No one wins")
+    }
+    document.getElementById('room').style.display = 'block';
+    document.getElementById('game').style.display = 'none';
+})
 
 function submit_move() {
     var str = document.getElementById('move_list').value;

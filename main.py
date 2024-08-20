@@ -28,6 +28,7 @@ def create_game(room_id, players):
         'mode': 'default',
         'players': [],
         'moves': {},
+        'alive': {}
     }
     for player in players:
         games[room_id]['players'].append({
@@ -39,7 +40,9 @@ def create_game(room_id, players):
             'doubles': 0,
             'pew-charge': 1,
         })
-    games[room_id]['moves'][player] = None
+        games[room_id]['moves'][player] = None
+        games[room_id]['alive'][player] = True
+
     
 
 
@@ -114,13 +117,28 @@ def on_submit_move(data):
     room_id = data['room_id']
     player_id = data['player_id']
 
-    games[room_id]['moves'][player_id] = { 'moves': data['moves'], 'target': data['target'] }
+    game = games[room_id]
+    game['moves'][player_id] = { 'moves': data['moves'], 'target': data['target'] }
     
     # Check if all players have submitted their moves
-    if all(m is not None for m in games[room_id]['moves'].values()):
-        process_moves(games[room_id]['moves'])
-        emit('update_game', games[room_id], room=room_id)
-        games[room_id]['moves'] = {}
+    if all(m is not None for m in game['moves'].values()):
+        process_moves(game['moves'])
+        game['round'] += 1
+        emit('update_game', game, room=room_id)
+        game['moves'] = {}
+
+        alive_players = [player_id for player_id, alive in game['alive'].items() if alive]
+        if len(alive_players) <= 1:
+            end_game(room_id, alive_players)
+
+def end_game(room_id, alive_players):
+    emit('end_game', {
+        'winner': alive_players[0]
+    } if alive_players else {
+        'winner': {}
+    }, room=room_id)
+    del games[room_id]
+    rooms[room_id]['state'] = 'waiting'
         
 
 def process_moves(moves):
