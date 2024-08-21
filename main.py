@@ -29,7 +29,8 @@ def create_game(room_id, players):
         'players': {},
         'moves': {},
         'alive': {},
-        'profiles': {}
+        'profiles': {},
+        'achievements':{}
     }
     for player in players:
         games[room_id]['players'][player] = {
@@ -43,8 +44,24 @@ def create_game(room_id, players):
         games[room_id]['profiles'][player] = {
             'Wins': 0, 
             'Losses': 0, 
-            'Kills': 0, 
-            'Assists': 0
+            'Total Kills': 0, 
+            'Total Assists': 0,
+            'Charges Acquired': 0,
+            'Blocks Acquired': 0
+        }
+        games[room_id]['achievements'][player]= {
+            'Noob': [],
+            'Taste of Blood': [],
+            'Enemy of my Enemy': [],
+            'To the Victors': [],
+            'Mutually Assured Destruction': [],
+            'Close Call': [],
+            'Sabotoge': [],
+            'Thumbs Up!': [],
+            'Bruh': [],
+            'Stormtrooper': [],
+            'Jack of All Trades': [],
+            'Lack of All Trades': []
         }
         games[room_id]['moves'][player] = None
         games[room_id]['alive'][player] = True
@@ -145,11 +162,12 @@ def end_game(room_id, alive_players):
         
 
 def process_moves(game):
-    ReturnInfo = EvaluateWarGame(game['mode'], [player for player in game['alive'] if game['alive'][player] == True], game['players'], game['moves'], game['profiles'])
+    ReturnInfo = EvaluateWarGame(game['mode'], [player for player in game['alive'] if game['alive'][player] == True], game['players'], game['moves'], game['profiles'], game['achievements'])
     #Update game alive, players, and profiles
     game['alive'] = {player: True if player in ReturnInfo['Remaining Players'] else False for player in game['alive']}
     game['players'] = {player: ReturnInfo['Remaining Player Resources'][player] if player in ReturnInfo['Remaining Players'] else game['players'][player] for player in game['alive']}
     game['profiles'] = {player: ReturnInfo['Updated Player Profiles'][player] if player in ReturnInfo['Updated Player Profiles'] else game['profiles'][player] for player in game['alive']}
+    game['achievements'] = {player: ReturnInfo['Updated Player Achievements'][player] if player in ReturnInfo['Updated Player Achievements'] else game['achievements'][player] for player in game['alive']}
     print(game['alive'])
     print(game['players'])
     print(game['profiles'])
