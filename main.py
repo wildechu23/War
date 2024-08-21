@@ -28,16 +28,23 @@ def create_game(room_id, players):
         'mode': 'default',
         'players': {},
         'moves': {},
-        'alive': {}
+        'alive': {},
+        'profiles': {}
     }
     for player in players:
         games[room_id]['players'][player] = {
-            'charges': 0,
-            'blocks': 0,
-            'magical shards': 0,
-            'fumes': 0,
-            'doubles': 0,
-            'pew-charge': 1,
+            'Charges': 0,
+            'Blocks': 0,
+            'Magical Shards': 0,
+            'Fumes': 0,
+            'Doubles': 0,
+            'Pew-Charge': 1,
+        }
+        games[room_id]['profiles'][player] = {
+            'Wins': 0, 
+            'Losses': 0, 
+            'Kills': 0, 
+            'Assists': 0
         }
         games[room_id]['moves'][player] = None
         games[room_id]['alive'][player] = True
@@ -115,11 +122,12 @@ def on_submit_move(data):
     player_id = data['player_id']
 
     game = games[room_id]
-    game['moves'][player_id] = { 'moves': data['moves'], 'target': data['target'] }
+    game['moves'][player_id] = { 'Moves': data['moves'], 'Target': data['target'] }
     
     # Check if all players have submitted their moves
     if all(m is not None for m in game['moves'].values()):
-        process_moves(game['moves'])
+        process_moves(game)
+        '''INSERT DISPLAY MOVES HERE'''
         game['round'] += 1
         emit('update_game', game, room=room_id)
         game['moves'] = dict.fromkeys(game['moves'], None)
@@ -138,10 +146,19 @@ def end_game(room_id, alive_players):
     rooms[room_id]['state'] = 'waiting'
         
 
-def process_moves(moves):
-    for key, player in moves.items():
+def process_moves(game):
+    ReturnInfo = EvaluateWarGame(game['mode'], [player for player in game['alive'] if game['alive'][player] == True], game['players'], game['moves'], game['profiles'])
+    #Update game alive, players, and profiles
+    game['alive'] = {player: True if player in ReturnInfo['Remaining Players'] else False for player in game['alive']}
+    game['players'] = {player: ReturnInfo['Remaining Player Resources'][player] if player in ReturnInfo['Remaining Players'] else game['players'][player] for player in game['alive']}
+    game['profiles'] = {player: ReturnInfo['Updated Player Profiles'][player] if player in ReturnInfo['Updated Player Profiles'] else game['profiles'][player] for player in game['alive']}
+    print(game['alive'])
+    print(game['players'])
+    print(game['profiles'])
+    
+    for key, player in game['moves'].items():
         print(key)
-        for move in player['moves']:
+        for move in player['Moves']:
             print(move)
 
 

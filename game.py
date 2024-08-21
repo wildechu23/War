@@ -35,7 +35,7 @@ ResourceMovesList = ['Charge', 'Block', 'Reflect', 'Smoke', 'Invincible', 'Pew-C
 ResourceGainList = ['Charges', 'Blocks', 'Magical Shards', 'Fumes', 'Doubles', 'Charges']
 
 #%%
-def EvaluateWarGame(PlayerList, PlayerResources, PlayerMoves, PlayerProfiles):
+def EvaluateWarGame(GameMode, PlayerList, PlayerResources, PlayerMoves, PlayerProfiles):
     '''Start of Round'''
     EliminatedPlayers = []
     NonEliminatedPlayers = PlayerList
@@ -197,11 +197,11 @@ def EvaluateWarGame(PlayerList, PlayerResources, PlayerMoves, PlayerProfiles):
     if len(NonEliminatedPlayers) == 1:
         #Update win
         PlayerProfiles[NonEliminatedPlayers[0]]['Wins'] = PlayerProfiles[NonEliminatedPlayers[0]]['Wins'] + 1
-        return([{'Game State': 'Game is over, player ' + str(NonEliminatedPlayers[0]) + ' Wins'}, {'Eliminated Players': EliminatedPlayers}, {'Remaining Players': NonEliminatedPlayers}, {'Remaining Player Resources': PlayerResources}, {'Updated Player Profiles': PlayerProfiles}])
+        return({'Game State': 'Game is over, player ' + str(NonEliminatedPlayers[0]) + ' Wins', 'Eliminated Players': EliminatedPlayers, 'Remaining Players': NonEliminatedPlayers, 'Remaining Player Resources': PlayerResources, 'Updated Player Profiles': PlayerProfiles})
     elif len(NonEliminatedPlayers) == 0:
-        return([{'Game State': 'Game is over, nobody wins'}, {'Eliminated Players': EliminatedPlayers}, {'Remaining Players': NonEliminatedPlayers}, {'Remaining Player Resources': PlayerResources}, {'Updated Player Profiles': PlayerProfiles}])
+        return({'Game State': 'Game is over, nobody wins', 'Eliminated Players': EliminatedPlayers, 'Remaining Players': NonEliminatedPlayers, 'Remaining Player Resources': PlayerResources, 'Updated Player Profiles': PlayerProfiles})
     else:
-        return([{'Game State': 'Game is Ongoing'}, {'Eliminated Players': EliminatedPlayers}, {'Remaining Players': NonEliminatedPlayers}, {'Remaining Player Resources': PlayerResources}, {'Updated Player Profiles': PlayerProfiles}])
+        return ({'Game State': 'Game is Ongoing', 'Eliminated Players': EliminatedPlayers, 'Remaining Players': NonEliminatedPlayers, 'Remaining Player Resources': PlayerResources, 'Updated Player Profiles': PlayerProfiles})
 #%%
 '''Test Example (PlayerList, PlayerProfiles, PlayerResources, PlayerMoves)'''
 
@@ -230,13 +230,13 @@ ExamplePlayerResources = {ExamplePlayerList[i]: {'Charges': 2, 'Blocks': 4, 'Mag
 #ExamplePlayerMoves = {'Player 1': {'Moves':['Smoke'], 'Target': ''}, 'Player 2': {'Moves':['Sniper'], 'Target': 'Player 3'}, 'Player 3': {'Moves':['Sniper'], 'Target': 'Player 2'}}
 ExamplePlayerMoves = {'Player 1': {'Moves':['Smoke'], 'Target': ''}, 'Player 2': {'Moves':['Sniper'], 'Target': 'Player 3'}, 'Player 3': {'Moves':['Ghostgun'], 'Target': 'Player 2'}}
 
-ExampleOutputData = EvaluateWarGame(ExamplePlayerList, ExamplePlayerResources, ExamplePlayerMoves, ExamplePlayerProfiles)
+ExampleGameMode = 'Default'
+ExampleOutputData = EvaluateWarGame(ExampleGameMode, ExamplePlayerList, ExamplePlayerResources, ExamplePlayerMoves, ExamplePlayerProfiles)
 
 
 #Future coding
 ##achievements
       
-            
         
 
     
