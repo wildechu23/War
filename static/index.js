@@ -52,7 +52,6 @@ socket.on('room_joined', function(data) {
     document.getElementById('login').style.display = 'none';
     document.getElementById('room').style.display = 'block';
     document.getElementById('current_room').textContent = 'Room ID: ' + current_room;
-    console.log(data.leader);
     if(data.leader === player_id) {
         document.getElementById('start_game').disabled = false;
     }
@@ -128,7 +127,7 @@ socket.on('update_game', function(game) {
 
         var lastMove = document.createElement('td');
         if(game.moves[id]) {
-            lastMove.textContent = game.moves[id].moves.join();
+            lastMove.textContent = game.moves[id].Moves.join();
         }
         tr.append(lastMove);
         

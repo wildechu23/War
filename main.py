@@ -139,9 +139,7 @@ def on_submit_move(data):
 def end_game(room_id, alive_players):
     emit('end_game', {
         'winner': alive_players[0]
-    } if alive_players else {
-        'winner': {}
-    }, room=room_id)
+    } if len(alive_players) == 1 else {}, room=room_id)
     del games[room_id]
     rooms[room_id]['state'] = 'waiting'
         
