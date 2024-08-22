@@ -8,6 +8,46 @@
             integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA=="
             crossorigin="anonymous"
         </script>
+        <style>
+        .sidenav {
+          height: 100%;
+          width: 0;
+          position: fixed;
+          z-index: 1;
+          top: 0;
+          right: 0;
+          background-color: #111;
+          overflow-x: hidden;
+          transition: 0.5s;
+          padding-top: 60px;
+        }
+
+        .sidenav a {
+          padding: 32px 8px 8px 8px;
+          text-decoration: none;
+          font-size: 25px;
+          color: #818181;
+          display: block;
+          transition: 0.3s;
+        }
+
+        .sidenav a:hover {
+          color: #f1f1f1;
+        }
+        
+        .sidenav .closebtn {
+          position: absolute;
+          top: 0;
+          right: 0;
+          font-size: 36px;
+          margin-left: 50px;
+        }
+        
+        @media screen and (max-height: 450px) {
+          .sidenav {padding-top: 15px;}
+          .sidenav a {font-size: 18px;}
+        }
+        </style>
     </head>
     <body>
         <div id="login">
@@ -29,7 +69,74 @@
             </ul>
         </div>
         <div id="game" style="display: none;">
-            <h1 id="round_number"></h1>
+            <div>
+                <h1 style="display: inline;" id="round_number"></h1>
+                <!--Open Menu -->
+                <span style="position: absolute; top: 0px; right: 5px;, font-size:50px;cursor:pointer" onclick="openNav()">&#9776; Menu</span>
+                <!--The Menu -->
+                <span style= "position: absolute; top: 0px; right: 0px;" id="mySidenav" class="sidenav">
+                    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+                    <a href="#" onclick="openRules()">Rules</a>
+                    <a href="#" onclick="openAchievements()">Achievements</a>
+                    <a href="#" onclick="openStats()">Stats</a>
+                    <a href="#" onclick="openContact()">Contact</a>
+                </span>
+                <!--Rules -->
+                <span style= "position: absolute; top: 0px; right: 0px;" id="Rules" class="sidenav">
+                    <a href="javascript:void(0)" class="closebtn" onclick="closeRules()">&times;</a>
+                    <h1 style="color: #f1f1f1; margin: 0px; padding: 30px 8px 8px 8px;"> Rules </h1>
+                </span>
+                <!--Achievements -->
+                <span style= "position: absolute; top: 0px; right: 0px;" id="Achievements" class="sidenav">
+                    <a href="javascript:void(0)" class="closebtn" onclick="closeAchievements()">&times;</a>
+                    <h1 style="color: #f1f1f1; margin: 0px; padding: 30px 8px 8px 8px"> Achievements </h1>
+                    <a href="#">Insert Achievements Scroll here</a>
+                </span>
+                <!--Stats -->
+                <span style= "position: absolute; top: 0px; right: 0px;" id="Stats" class="sidenav">
+                    <a href="javascript:void(0)" class="closebtn" onclick="closeStats()">&times;</a>
+                    <h1 style="color: #f1f1f1; margin: 0px; padding: 30px 8px 8px 8px"> Player Stats </h1>
+                    <a  style="pointer-events: none;" href="#">Insert Player Stats Here</a>
+                </span>
+                <!--Contact -->
+                <span style= "position: absolute; top: 0px; right: 0px;" id="Contact" class="sidenav">
+                    <a href="javascript:void(0)" class="closebtn" onclick="closeContact()">&times;</a>
+                    <h1 style="color: #f1f1f1; margin: 0px; padding: 30px 8px 8px 8px"> Contacts </h1>
+                    <a href="#">Insert Contacts here</a>
+                </span>
+            </div>
+            <script>
+            function openNav() {
+              document.getElementById("mySidenav").style.width = "200px";
+            }
+            function closeNav() {
+              document.getElementById("mySidenav").style.width = "0";
+            }
+            function openRules() {
+              document.getElementById("Rules").style.width = "200px";
+            }
+            function closeRules() {
+              document.getElementById("Rules").style.width = "0";
+            }
+            function openAchievements() {
+              document.getElementById("Achievements").style.width = "200px";
+            }
+            function closeAchievements() {
+              document.getElementById("Achievements").style.width = "0";
+            }
+            function openStats() {
+              document.getElementById("Stats").style.width = "200px";
+            }
+            function closeStats() {
+              document.getElementById("Stats").style.width = "0";
+            }
+            function openContact() {
+              document.getElementById("Contact").style.width = "200px";
+            }
+            function closeContact() {
+              document.getElementById("Contact").style.width = "0";
+            }
+            </script>
             <div style="padding: 20px;">
                 <label for="move_list">Input Moves</label>
                 <input type="text" id="move_list">

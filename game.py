@@ -315,54 +315,53 @@ def EvaluateWarGame(GameMode, PlayerList, PlayerResources, PlayerMoves, PlayerPr
     return ({'Game State': 'Game is Ongoing', 'Eliminated Players': EliminatedPlayers, 'Remaining Players': NonEliminatedPlayers, 'Remaining Player Resources': PlayerResources, 'Updated Player Profiles': PlayerProfiles, 'Updated Player Achievements': PlayerAchievements})
 
 #%%
-'''Test Example (PlayerList, PlayerProfiles, PlayerResources, PlayerMoves)'''
-
-NumPlayers = 3
-
-ExamplePlayerList = ["Player " + str(i+1) for i in range (0, NumPlayers)]
-ExamplePlayerProfiles = {ExamplePlayerList[i]: {'Wins': 0, 'Losses': 0, 'Total Kills': 0, 'Total Assists': 0, 'Charges Acquired': 0, 'Blocks Acquired': 0} for i in range (0,NumPlayers)}
-ExamplePlayerAchievements = {ExamplePlayerList[i]: 
-                             {
-                                 'Noob': [],
-                                 'Taste of Blood': [],
-                                 'Enemy of my Enemy': [],
-                                 'To the Victors': [],
-                                 'Mutually Assured Destruction': [],
-                                 'Close Call': [],
-                                 'Sabotoge': [],
-                                 'Thumbs Up!': [],
-                                 'Bruh': [],
-                                 'Stormtrooper': [],
-                                 'Jack of All Trades': [],
-                                 'Lack of All Trades': []
-                                 }
-                                 for i in range (0,NumPlayers)
-                             }
-#Standard Starting Resources
-#ExamplePlayerResources = {PlayerList[i]: {'Charges': 0, 'Blocks': 0, 'Fumes': 0, 'Magical Shards': 0, 'Doubles': 0, 'Pew-Charge': 1} for i in range (0, NumPlayers)}
-
-#Test Resources
-ExamplePlayerResources = {ExamplePlayerList[i]: {'Charges': 2, 'Blocks': 4, 'Magical Shards': 3, 'Fumes': 6, 'Doubles': 0, 'Pew-Charge': 1} for i in range (0, NumPlayers)}
-
-#template
-#ExamplePlayerMoves = {'Player 1': {'Moves':[], 'Target': ''}, 'Player 2': {'Moves':[], 'Target': ''}, 'Player 3': {'Moves':[], 'Target': ''}}
-
-#examples
-#ExamplePlayerMoves = {'Player 1': {'Moves':['Smoke'], 'Target': ''}, 'Player 2': {'Moves':['Pew-Charge'], 'Target': 'Player 1'}, 'Player 3': {'Moves':['Pew-Charge'], 'Target': 'Player 2'}}
-#ExamplePlayerMoves = {'Player 1': {'Moves':['Block'], 'Target': ''}, 'Player 2': {'Moves':['Pew-Charge'], 'Target': 'Player 1'}, 'Player 3': {'Moves':['Pew-Charge'], 'Target': 'Player 2'}}
-ExamplePlayerMoves = {'Player 1': {'Moves':['Smoke'], 'Target': ''}, 'Player 2': {'Moves':['Sniper', 'Pew-Charge'], 'Target': 'Player 3'}, 'Player 3': {'Moves':['Bazooka'], 'Target': 'Player 2'}}
-#ExamplePlayerMoves = {'Player 1': {'Moves':['Smoke'], 'Target': ''}, 'Player 2': {'Moves':['Ghostgun'], 'Target': 'Player 3'}, 'Player 3': {'Moves':['Portal'], 'Target': ''}}
-#ExamplePlayerMoves = {'Player 1': {'Moves':['Block'], 'Target': ''}, 'Player 2': {'Moves':['Sniper'], 'Target': 'Player 3'}, 'Player 3': {'Moves':['Smoke Machine'], 'Target': ''}}
-#ExamplePlayerMoves = {'Player 1': {'Moves':['Smoke Machine'], 'Target': ''}, 'Player 2': {'Moves':['Sniper', 'Sniper'], 'Target': 'Player 3'}, 'Player 3': {'Moves':['Smoke Machine'], 'Target': ''}}
-#ExamplePlayerMoves = {'Player 1': {'Moves':['Smoke Machine'], 'Target': ''}, 'Player 2': {'Moves':['Sniper'], 'Target': 'Player 3'}, 'Player 3': {'Moves':['Reflect'], 'Target': ''}}
-#ExamplePlayerMoves = {'Player 1': {'Moves':['Smoke'], 'Target': ''}, 'Player 2': {'Moves':['Sniper'], 'Target': 'Player 3'}, 'Player 3': {'Moves':['Sniper'], 'Target': 'Player 2'}}
-#ExamplePlayerMoves = {'Player 1': {'Moves':['Smoke'], 'Target': ''}, 'Player 2': {'Moves':['Sniper'], 'Target': 'Player 3'}, 'Player 3': {'Moves':['Ghostgun'], 'Target': 'Player 2'}}
-
-ExampleGameMode = 'Default'
-ExampleOutputData = EvaluateWarGame(ExampleGameMode, ExamplePlayerList, ExamplePlayerResources, ExamplePlayerMoves, ExamplePlayerProfiles, ExamplePlayerAchievements)
-
-
-#Future coding
-##achievements
+# =============================================================================
+# '''Test Example (Gamemode, PlayerList, PlayerProfiles, PlayerResources, PlayerMoves, PlayerAchievements)'''
+# 
+# NumPlayers = 3
+# 
+# ExamplePlayerList = ["Player " + str(i+1) for i in range (0, NumPlayers)]
+# ExamplePlayerProfiles = {ExamplePlayerList[i]: {'Wins': 0, 'Losses': 0, 'Total Kills': 0, 'Total Assists': 0, 'Charges Acquired': 0, 'Blocks Acquired': 0} for i in range (0,NumPlayers)}
+# ExamplePlayerAchievements = {ExamplePlayerList[i]: 
+#                              {
+#                                  'Noob': [],
+#                                  'Taste of Blood': [],
+#                                  'Enemy of my Enemy': [],
+#                                  'To the Victors': [],
+#                                  'Mutually Assured Destruction': [],
+#                                  'Close Call': [],
+#                                  'Sabotoge': [],
+#                                  'Thumbs Up!': [],
+#                                  'Bruh': [],
+#                                  'Stormtrooper': [],
+#                                  'Jack of All Trades': [],
+#                                  'Lack of All Trades': []
+#                                  }
+#                                  for i in range (0,NumPlayers)
+#                              }
+# #Standard Starting Resources
+# #ExamplePlayerResources = {PlayerList[i]: {'Charges': 0, 'Blocks': 0, 'Fumes': 0, 'Magical Shards': 0, 'Doubles': 0, 'Pew-Charge': 1} for i in range (0, NumPlayers)}
+# 
+# #Test Resources
+# ExamplePlayerResources = {ExamplePlayerList[i]: {'Charges': 2, 'Blocks': 4, 'Magical Shards': 3, 'Fumes': 6, 'Doubles': 0, 'Pew-Charge': 1} for i in range (0, NumPlayers)}
+# 
+# #template
+# #ExamplePlayerMoves = {'Player 1': {'Moves':[], 'Target': ''}, 'Player 2': {'Moves':[], 'Target': ''}, 'Player 3': {'Moves':[], 'Target': ''}}
+# 
+# #examples
+# #ExamplePlayerMoves = {'Player 1': {'Moves':['Smoke'], 'Target': ''}, 'Player 2': {'Moves':['Pew-Charge'], 'Target': 'Player 1'}, 'Player 3': {'Moves':['Pew-Charge'], 'Target': 'Player 2'}}
+# #ExamplePlayerMoves = {'Player 1': {'Moves':['Block'], 'Target': ''}, 'Player 2': {'Moves':['Pew-Charge'], 'Target': 'Player 1'}, 'Player 3': {'Moves':['Pew-Charge'], 'Target': 'Player 2'}}
+# ExamplePlayerMoves = {'Player 1': {'Moves':['Smoke'], 'Target': ''}, 'Player 2': {'Moves':['Sniper', 'Pew-Charge'], 'Target': 'Player 3'}, 'Player 3': {'Moves':['Bazooka'], 'Target': 'Player 2'}}
+# #ExamplePlayerMoves = {'Player 1': {'Moves':['Smoke'], 'Target': ''}, 'Player 2': {'Moves':['Ghostgun'], 'Target': 'Player 3'}, 'Player 3': {'Moves':['Portal'], 'Target': ''}}
+# #ExamplePlayerMoves = {'Player 1': {'Moves':['Block'], 'Target': ''}, 'Player 2': {'Moves':['Sniper'], 'Target': 'Player 3'}, 'Player 3': {'Moves':['Smoke Machine'], 'Target': ''}}
+# #ExamplePlayerMoves = {'Player 1': {'Moves':['Smoke Machine'], 'Target': ''}, 'Player 2': {'Moves':['Sniper', 'Sniper'], 'Target': 'Player 3'}, 'Player 3': {'Moves':['Smoke Machine'], 'Target': ''}}
+# #ExamplePlayerMoves = {'Player 1': {'Moves':['Smoke Machine'], 'Target': ''}, 'Player 2': {'Moves':['Sniper'], 'Target': 'Player 3'}, 'Player 3': {'Moves':['Reflect'], 'Target': ''}}
+# #ExamplePlayerMoves = {'Player 1': {'Moves':['Smoke'], 'Target': ''}, 'Player 2': {'Moves':['Sniper'], 'Target': 'Player 3'}, 'Player 3': {'Moves':['Sniper'], 'Target': 'Player 2'}}
+# #ExamplePlayerMoves = {'Player 1': {'Moves':['Smoke'], 'Target': ''}, 'Player 2': {'Moves':['Sniper'], 'Target': 'Player 3'}, 'Player 3': {'Moves':['Ghostgun'], 'Target': 'Player 2'}}
+# 
+# ExampleGameMode = 'Default'
+# ExampleOutputData = EvaluateWarGame(ExampleGameMode, ExamplePlayerList, ExamplePlayerResources, ExamplePlayerMoves, ExamplePlayerProfiles, ExamplePlayerAchievements)
+# =============================================================================
       
-    
+'''Future Notes'''
+#Implement different game modes (i.e. Share War)  
