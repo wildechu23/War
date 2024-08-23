@@ -85,6 +85,67 @@
                 <span style= "position: absolute; top: 0px; right: 0px;" id="Rules" class="sidenav">
                     <a href="javascript:void(0)" class="closebtn" onclick="closeRules()">&times;</a>
                     <h1 style="color: #f1f1f1; margin: 0px; padding: 30px 8px 8px 8px;"> Rules </h1>
+                    <h2 style="color: #f1f1f1; margin: 0px; padding: 10px 8px 8px 8px;"> Introduction: </h2>
+                    <p style="color: #f1f1f1; margin: 0px; padding: 10px 8px 8px 8px;"> 
+                        War was originally a round-based game in which players of our friend group would utilize hand gestures to indicate moves.
+                        Based on everyone's move, knowledge of the game's interactions were used to determine the outcomes and ultimately, the victors.
+                        However, as time has gone on and we have moved apart, such games have been difficult to continue.
+                        So, we have created an online version to strengthen our coding capabilities and for the ability to play regardless of distance.
+                    </p>
+                    <h2 style="color: #f1f1f1; margin: 0px; padding: 10px 8px 8px 8px;"> The Objective: </h2>
+                    <p style="color: #f1f1f1; margin: 0px; padding: 10px 8px 8px 8px;"> 
+                        Each round, players will submit a move (and a target if required).
+                        These moves may include acquiring resources, attacking players, or blocking/deflecting attacks. 
+                        The game is played until one player remains (or none are left standing).
+                    </p>
+                    <h2 style="color: #f1f1f1; margin: 0px; padding: 10px 8px 8px 8px;"> Types of Moves: </h2>
+                    <h4 style="color: #f1f1f1; margin: 0px; padding: 10px 8px 8px 8px;"> Neutral:  </h4>
+                    <p style="color: #f1f1f1; margin: 0px; padding: 10px 8px 8px 8px;">
+                        Neutral moves are not directed at any specific player, hence the effects of the move apply to all players or no player. 
+                        Note that this does not mean that you do not interact with other players. 
+                        Neutral moves typically serve the purpose of either collecting resources or shielding against damage. 
+    
+                        Ex. Charge gives the player one charge resources
+                        Ex. Reflect redirects an enemy’s attack back at them. 
+    
+                        Neutral moves are not combinable unless specified. 
+                        Ex. Charge - Reflect is an invalid move.
+                    </p>
+                    <h4 style="color: #f1f1f1; margin: 0px; padding: 10px 8px 8px 8px;"> Attacking:  </h4>
+                    <p style="color: #f1f1f1; margin: 0px; padding: 10px 8px 8px 8px;">
+                        Attacking moves are always attacks directed at a specific player. 
+                        This attack interacts directly with the targetted player, and only the targeted player.
+
+                        Ex. Player A and Player B use Charge. 
+                        Player C uses Pew on Player A. 
+                        Player B still lives.
+                        
+                        Ex. Player A and Player B use Pew on each other. 
+                        Player C uses Pew on Player A. 
+                        A and B's attacks cancel out, but Player C still defeats Player A.
+                        
+                        Attacking moves can always be combined (unless specified).
+                        Ex. Sniper-Pew is a valid move
+                    </p>
+                    <h2 style="color: #f1f1f1; margin: 0px; padding: 10px 8px 8px 8px;"> Interactions: </h2>
+                    <p style="color: #f1f1f1; margin: 0px; padding: 10px 8px 8px 8px;">
+                    Attack vs. Block:
+                    If the attack’s damage is higher than the shield value of the block, the blocking player dies.
+                    Otherwise, the blocking player survives
+                    
+                    Attack vs. Attack:
+                    The player with the higher damage defeats the player with lower damage.
+                    If they are equal, neither player is victorious and play continues.
+                    
+                    </p>
+
+                    <h2 style="color: #f1f1f1; margin: 0px; padding: 10px 8px 8px 8px;"> The Set-Up: </h2>
+                    <p style="color: #f1f1f1; margin: 0px; padding: 10px 8px 8px 8px;">
+                        All players begin with no resources except for a pew-charge. 
+                        This can be used up any time during the game. 
+                        As the name implies, a pew is combined with a charge, hence the player chooses a player to attack with one damage, while simultaneously gaining a charge. 
+                        This is the only way a player can attack and gain resources at the same time. 
+                    </p>
                 </span>
                 <!--Achievements -->
                 <span style= "position: absolute; top: 0px; right: 0px;" id="Achievements" class="sidenav">
@@ -108,31 +169,31 @@
             </div>
             <script>
             function openNav() {
-              document.getElementById("mySidenav").style.width = "240px";
+              document.getElementById("mySidenav").style.width = "200px";
             }
             function closeNav() {
               document.getElementById("mySidenav").style.width = "0";
             }
             function openRules() {
-              document.getElementById("Rules").style.width = "240px";
+              document.getElementById("Rules").style.width = "300px";
             }
             function closeRules() {
               document.getElementById("Rules").style.width = "0";
             }
             function openAchievements() {
-              document.getElementById("Achievements").style.width = "240px";
+              document.getElementById("Achievements").style.width = "300px";
             }
             function closeAchievements() {
               document.getElementById("Achievements").style.width = "0";
             }
             function openStats() {
-              document.getElementById("Stats").style.width = "240px";
+              document.getElementById("Stats").style.width = "300px";
             }
             function closeStats() {
               document.getElementById("Stats").style.width = "0";
             }
             function openContact() {
-              document.getElementById("Contact").style.width = "240px";
+              document.getElementById("Contact").style.width = "300px";
             }
             function closeContact() {
               document.getElementById("Contact").style.width = "0";
