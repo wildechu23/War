@@ -1,227 +1,153 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>War</title>
-        <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js">
-            integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA=="
-            crossorigin="anonymous"
-        </script>
-        <style>
-        .sidenav {
-          height: 100%;
-          width: 0;
-          position: fixed;
-          z-index: 1;
-          top: 0;
-          right: 0;
-          background-color: #111;
-          overflow-x: hidden;
-          transition: 0.5s;
-          padding-top: 60px;
-        }
+{% extends 'base.html' %}
 
-        .sidenav a {
-          padding: 32px 8px 8px 8px;
-          text-decoration: none;
-          font-size: 25px;
-          color: #818181;
-          display: block;
-          transition: 0.3s;
-        }
 
-        .sidenav a:hover {
-          color: #f1f1f1;
-        }
-        
-        .sidenav .closebtn {
-          position: absolute;
-          top: 0;
-          right: 0;
-          font-size: 36px;
-          margin-left: 50px;
-        }
-        
-        @media screen and (max-height: 450px) {
-          .sidenav {padding-top: 15px;}
-          .sidenav a {font-size: 18px;}
-        }
-        </style>
-    </head>
-    <body>
-        <div id="login">
-            <h1>Stinky</h1>
-            <input type="text" id="player_id" placeholder="Enter Player ID">
-            <button type="button" id="create_room">Create Room</button>
-            <h2>Available Rooms</h2>
-            <button type="button" id="refresh_rooms">Refresh Rooms</button>
-            <ul id="rooms_list">
-                <!-- List of rooms will be dynamically updated here -->
-            </ul>
-        </div>
-        <div id="room" style="display: none;">
-            <h1 id="current_room"></h1>
-            <button type="button" id="leave_room">Leave Room</button>
-            <button type="button" id="start_game" disabled>Start</button>
-            <ul id="player_list">
-                <!-- List of users will be dynamically updated here -->
-            </ul>
-        </div>
-        <div id="game" style="display: none;">
-            <div>
-                <h1 style="display: inline;" id="round_number"></h1>
-                <!--Open Menu -->
-                <span style="position: absolute; top: 0px; right: 5px;, font-size:50px;cursor:pointer" onclick="openNav()">&#9776; Menu</span>
-                <!--The Menu -->
-                <span style= "position: absolute; top: 0px; right: 0px;" id="mySidenav" class="sidenav">
-                    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-                    <a href="#" onclick="openRules()">Rules</a>
-                    <a href="#" onclick="openAchievements()">Achievements</a>
-                    <a href="#" onclick="openStats()">Stats</a>
-                    <a href="#" onclick="openContact()">Contact</a>
-                </span>
-                <!--Rules -->
-                <span style= "position: absolute; top: 0px; right: 0px;" id="Rules" class="sidenav">
-                    <a href="javascript:void(0)" class="closebtn" onclick="closeRules()">&times;</a>
-                    <h1 style="color: #f1f1f1; margin: 0px; padding: 30px 8px 8px 8px;"> Rules </h1>
-                    <h2 style="color: #f1f1f1; margin: 0px; padding: 10px 8px 8px 8px;"> Introduction: </h2>
-                    <p style="color: #f1f1f1; margin: 0px; padding: 10px 8px 8px 8px;"> 
-                        War was originally a round-based game in which players of our friend group would utilize hand gestures to indicate moves.
-                        Based on everyone's move, knowledge of the game's interactions were used to determine the outcomes and ultimately, the victors.
-                        However, as time has gone on and we have moved apart, such games have been difficult to continue.
-                        So, we have created an online version to strengthen our coding capabilities and for the ability to play regardless of distance.
-                    </p>
-                    <h2 style="color: #f1f1f1; margin: 0px; padding: 10px 8px 8px 8px;"> The Objective: </h2>
-                    <p style="color: #f1f1f1; margin: 0px; padding: 10px 8px 8px 8px;"> 
-                        Each round, players will submit a move (and a target if required).
-                        These moves may include acquiring resources, attacking players, or blocking/deflecting attacks. 
-                        The game is played until one player remains (or none are left standing).
-                    </p>
-                    <h2 style="color: #f1f1f1; margin: 0px; padding: 10px 8px 8px 8px;"> Types of Moves: </h2>
-                    <h4 style="color: #f1f1f1; margin: 0px; padding: 10px 8px 8px 8px;"> Neutral:  </h4>
-                    <p style="color: #f1f1f1; margin: 0px; padding: 10px 8px 8px 8px;">
-                        Neutral moves are not directed at any specific player, hence the effects of the move apply to all players or no player. 
-                        Note that this does not mean that you do not interact with other players. 
-                        Neutral moves typically serve the purpose of either collecting resources or shielding against damage. 
-    
-                        Ex. Charge gives the player one charge resources
-                        Ex. Reflect redirects an enemy’s attack back at them. 
-    
-                        Neutral moves are not combinable unless specified. 
-                        Ex. Charge - Reflect is an invalid move.
-                    </p>
-                    <h4 style="color: #f1f1f1; margin: 0px; padding: 10px 8px 8px 8px;"> Attacking:  </h4>
-                    <p style="color: #f1f1f1; margin: 0px; padding: 10px 8px 8px 8px;">
-                        Attacking moves are always attacks directed at a specific player. 
-                        This attack interacts directly with the targetted player, and only the targeted player.
+{% block content %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js">
+    integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA=="
+    crossorigin="anonymous"
+</script>
+<div id="login">
+  <h1>Stinky</h1>
+  <input type="text" id="player_id" placeholder="Enter Player ID">
+  <button type="button" id="create_room">Create Room</button>
+  <h2>Available Rooms</h2>
+  <button type="button" id="refresh_rooms">Refresh Rooms</button>
+  <ul id="rooms_list">
+      <!-- List of rooms will be dynamically updated here -->
+  </ul>
+</div>
+<div id="room" style="display: none;">
+  <h1 id="current_room"></h1>
+  <button type="button" id="leave_room">Leave Room</button>
+  <button type="button" id="start_game" disabled>Start</button>
+  <ul id="player_list">
+      <!-- List of users will be dynamically updated here -->
+  </ul>
+</div>
+<div id="game" style="display: none;">
+  <div>
+      <h1 style="display: inline;" id="round_number"></h1>
+      <!--Open Menu -->
+      <span class="openMenuButton" onclick="openNav()">&#9776; Menu</span>
+      <!--The Menu -->
+      <div id="mySidenav" class="sidenav">
+          <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+          <a href="#" onclick="openRules()">Rules</a>
+          <a href="#" onclick="openAchievements()">Achievements</a>
+          <a href="#" onclick="openStats()">Stats</a>
+          <a href="#" onclick="openContact()">Contact</a>
+      </div>
+      <!--Rules -->
+      <span id="Rules" class="sidenav">
+          <a href="javascript:void(0)" class="closebtn" onclick="closeRules()">&times;</a>
+          <h1> Rules </h1>
+          <h2> Introduction: </h2>
+          <p> 
+              War was originally a round-based game in which players of our friend group would utilize hand gestures to indicate moves.
+              Based on everyone's move, knowledge of the game's interactions were used to determine the outcomes and ultimately, the victors.
+              However, as time has gone on and we have moved apart, such games have been difficult to continue.
+              So, we have created an online version to strengthen our coding capabilities and for the ability to play regardless of distance.
+          </p>
+          <h2> The Objective: </h2>
+          <p> 
+              Each round, players will submit a move (and a target if required).
+              These moves may include acquiring resources, attacking players, or blocking/deflecting attacks. 
+              The game is played until one player remains (or none are left standing).
+          </p>
+          <h2> Types of Moves: </h2>
+          <h3> Neutral:  </h3>
+          <p>
+              Neutral moves are not directed at any specific player, hence the effects of the move apply to all players or no player. 
+              Note that this does not mean that you do not interact with other players. 
+              Neutral moves typically serve the purpose of either collecting resources or shielding against damage. 
 
-                        Ex. Player A and Player B use Charge. 
-                        Player C uses Pew on Player A. 
-                        Player B still lives.
-                        
-                        Ex. Player A and Player B use Pew on each other. 
-                        Player C uses Pew on Player A. 
-                        A and B's attacks cancel out, but Player C still defeats Player A.
-                        
-                        Attacking moves can always be combined (unless specified).
-                        Ex. Sniper-Pew is a valid move
-                    </p>
-                    <h2 style="color: #f1f1f1; margin: 0px; padding: 10px 8px 8px 8px;"> Interactions: </h2>
-                    <p style="color: #f1f1f1; margin: 0px; padding: 10px 8px 8px 8px;">
-                    Attack vs. Block:
-                    If the attack’s damage is higher than the shield value of the block, the blocking player dies.
-                    Otherwise, the blocking player survives
-                    
-                    Attack vs. Attack:
-                    The player with the higher damage defeats the player with lower damage.
-                    If they are equal, neither player is victorious and play continues.
-                    
-                    </p>
+              Ex. Charge gives the player one charge resources
+              Ex. Reflect redirects an enemy’s attack back at them. 
 
-                    <h2 style="color: #f1f1f1; margin: 0px; padding: 10px 8px 8px 8px;"> The Set-Up: </h2>
-                    <p style="color: #f1f1f1; margin: 0px; padding: 10px 8px 8px 8px;">
-                        All players begin with no resources except for a pew-charge. 
-                        This can be used up any time during the game. 
-                        As the name implies, a pew is combined with a charge, hence the player chooses a player to attack with one damage, while simultaneously gaining a charge. 
-                        This is the only way a player can attack and gain resources at the same time. 
-                    </p>
-                </span>
-                <!--Achievements -->
-                <span style= "position: absolute; top: 0px; right: 0px;" id="Achievements" class="sidenav">
-                    <a href="javascript:void(0)" class="closebtn" onclick="closeAchievements()">&times;</a>
-                    <h1 style="color: #f1f1f1; margin: 0px; padding: 30px 8px 8px 8px"> Achievements </h1>
-                    <table style="padding-left: 10px; padding-right:10px;" id="achievement_ui" style="width: 70%;">
-                    </table>
-                </span>
-                <!--Stats -->
-                <span style= "position: absolute; top: 0px; right: 0px;" id="Stats" class="sidenav">
-                    <a href="javascript:void(0)" class="closebtn" onclick="closeStats()">&times;</a>
-                    <h1 style="color: #f1f1f1; margin: 0px; padding: 30px 8px 8px 8px"> Player Stats </h1>
-                    <a  style="pointer-events: none;" href="#">Insert Player Stats Here</a>
-                </span>
-                <!--Contact -->
-                <span style= "position: absolute; top: 0px; right: 0px;" id="Contact" class="sidenav">
-                    <a href="javascript:void(0)" class="closebtn" onclick="closeContact()">&times;</a>
-                    <h1 style="color: #f1f1f1; margin: 0px; padding: 30px 8px 8px 8px"> Contacts </h1>
-                    <a href="#">Insert Contacts here</a>
-                </span>
-            </div>
-            <script>
-            function openNav() {
-              document.getElementById("mySidenav").style.width = "200px";
-            }
-            function closeNav() {
-              document.getElementById("mySidenav").style.width = "0";
-            }
-            function openRules() {
-              document.getElementById("Rules").style.width = "300px";
-            }
-            function closeRules() {
-              document.getElementById("Rules").style.width = "0";
-            }
-            function openAchievements() {
-              document.getElementById("Achievements").style.width = "300px";
-            }
-            function closeAchievements() {
-              document.getElementById("Achievements").style.width = "0";
-            }
-            function openStats() {
-              document.getElementById("Stats").style.width = "300px";
-            }
-            function closeStats() {
-              document.getElementById("Stats").style.width = "0";
-            }
-            function openContact() {
-              document.getElementById("Contact").style.width = "300px";
-            }
-            function closeContact() {
-              document.getElementById("Contact").style.width = "0";
-            }
-            </script>
-            <div style="padding: 20px;">
-                <label for="move_list">Input Moves</label>
-                <input type="text" id="move_list">
-                <label for="move_target">Target</label>
-                <input type="text" id="move_target">
-                <button type="button" id="submit_move">Submit</button>
-            </div>
-            <table id="game_state" style="width: 70%;">
-                <thead>
-                    <tr>
-                      <th>Player</th>
-                      <th>Charges</th>
-                      <th>Blocks</th>
-                      <th>Magical Shards</th>
-                      <th>Fumes</th>
-                      <th>Doubles</th>
-                      <th>Pew-Charge</th>
-                      <th>Last Move</th>
-                    </tr>
-                  </thead>
-                  <tbody></tbody>
-            </table>
-        </div>
-        <script src="{{url_for('static', filename='index.js')}}"></script>
-    </body>
-</html>
+              Neutral moves are not combinable unless specified. 
+              Ex. Charge - Reflect is an invalid move.
+          </p>
+          <h3> Attacking:  </h3>
+          <p>
+              Attacking moves are always attacks directed at a specific player. 
+              This attack interacts directly with the targetted player, and only the targeted player.
+
+              Ex. Player A and Player B use Charge. 
+              Player C uses Pew on Player A. 
+              Player B still lives.
+              
+              Ex. Player A and Player B use Pew on each other. 
+              Player C uses Pew on Player A. 
+              A and B's attacks cancel out, but Player C still defeats Player A.
+              
+              Attacking moves can always be combined (unless specified).
+              Ex. Sniper-Pew is a valid move
+          </p>
+          <h2> Interactions: </h2>
+          <p>
+          Attack vs. Block:
+          If the attack’s damage is higher than the shield value of the block, the blocking player dies.
+          Otherwise, the blocking player survives
+          
+          Attack vs. Attack:
+          The player with the higher damage defeats the player with lower damage.
+          If they are equal, neither player is victorious and play continues.
+          
+          </p>
+
+          <h2> The Set-Up: </h2>
+          <p>
+              All players begin with no resources except for a pew-charge. 
+              This can be used up any time during the game. 
+              As the name implies, a pew is combined with a charge, hence the player chooses a player to attack with one damage, while simultaneously gaining a charge. 
+              This is the only way a player can attack and gain resources at the same time. 
+          </p>
+      </span>
+      <!--Achievements -->
+      <span id="Achievements" class="sidenav">
+          <a href="javascript:void(0)" class="closebtn" onclick="closeAchievements()">&times;</a>
+          <h1> Achievements </h1>
+          <table id="achievement_ui" style="width: 70%;">
+          </table>
+      </span>
+      <!--Stats -->
+      <span id="Stats" class="sidenav">
+          <a href="javascript:void(0)" class="closebtn" onclick="closeStats()">&times;</a>
+          <h1> Player Stats </h1>
+          <a style="pointer-events: none;" href="#">Insert Player Stats Here</a>
+      </span>
+      <!--Contact -->
+      <span id="Contact" class="sidenav">
+          <a href="javascript:void(0)" class="closebtn" onclick="closeContact()">&times;</a>
+          <h1> Contacts </h1>
+          <a href="#">Insert Contacts here</a>
+      </span>
+  </div>
+  <script>
+  </script>
+  <div id="move_input">
+      <label for="move_list">Input Moves</label>
+      <input type="text" id="move_list">
+      <label for="move_target">Target</label>
+      <input type="text" id="move_target">
+      <button type="button" id="submit_move">Submit</button>
+  </div>
+  <table id="game_state">
+      <thead>
+          <tr>
+            <th>Player</th>
+            <th>Charges</th>
+            <th>Blocks</th>
+            <th>Magical Shards</th>
+            <th>Fumes</th>
+            <th>Doubles</th>
+            <th>Pew-Charge</th>
+            <th>Last Move</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+  </table>
+</div>
+<script src="{{url_for('static', filename='index.js')}}"></script>
+<script src="{{url_for('static', filename='sidebar.js')}}"></script>
+{% endblock %}

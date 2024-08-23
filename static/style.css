@@ -3,3 +3,79 @@
     color: rgb(69, 69, 69);
     padding: 20px;
 }
+
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+.sidenav a {
+    padding: 32px 8px 8px 8px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+.sidenav :is(h1, h2, h3, p) {
+    color: #f1f1f1;
+    margin: 0px;
+    padding: 10px 8px 8px 8px;
+}
+
+.sidenav h1 {
+    padding: 30px 8px 8px 8px;
+}
+
+@media screen and (max-height: 450px) {
+    .sidenav {
+        padding-top: 15px;
+    }
+
+    .sidenav a {
+        font-size: 18px;
+    }
+}
+
+.openMenuButton {
+    position: absolute;
+    top: 0px;
+    right: 5px;
+    font-size: 30px;
+    width: 150px;
+    cursor: pointer;
+    text-align: center;
+}
+
+#achievement_id {
+    padding: 0px 10px;
+}
+
+#move_input {
+    padding: 20px;
+}
+
+#game_state {
+    width: 70%;
+}

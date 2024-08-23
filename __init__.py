@@ -15,8 +15,12 @@ def create_app(config_class=Config):
     socketio.on_namespace(MainNamespace('/'))
 
     # Import and register blueprints or routes
-    from .routes import main
-    app.register_blueprint(main)
+    from . import lobby
+    app.register_blueprint(lobby.bp)
+    app.add_url_rule('/', endpoint='index')
+
+    from . import auth
+    app.register_blueprint(auth.bp)
     
     db.init_app(app)
 
