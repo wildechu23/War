@@ -2,6 +2,7 @@ import uuid
 from . import socketio
 from flask_socketio import Namespace, emit, join_room, leave_room, close_room
 from .game import EvaluateWarGame
+from .game import getAchievementDescriptions
 
 rooms = {}
 games = {}
@@ -22,7 +23,8 @@ class MainNamespace(Namespace):
             'moves': {},
             'alive': {},
             'profiles': {},
-            'achievements':{}
+            'achievements':{},
+            'achievementDescriptions': getAchievementDescriptions()
         }
         for player in players:
             games[room_id]['players'][player] = {
@@ -46,7 +48,7 @@ class MainNamespace(Namespace):
                 'Taste of Blood': [],
                 'Enemy of my Enemy': [],
                 'To the Victors': [],
-                'Mutually Assured Destruction': [],
+                'Mutually Assured': [],
                 'Close Call': [],
                 'Sabotoge': [],
                 'Thumbs Up!': [],

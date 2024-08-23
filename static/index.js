@@ -146,20 +146,26 @@ socket.on('update_game', function(game) {
     for ([achievement, progress] of Object.entries(game.achievements[player_id])) {
         var tr = document.createElement('tr');
             var td = document.createElement('td');
-            td.style.color = '#f1f1f1'
-            td.textContent = achievement
-            tr.append(td)
+            td.style.color = '#f1f1f1';
+            tr.style.height = '30px';
+            td.textContent = achievement;
+                var span = document.createElement('span');
+                span.classList.add("CellComment");    
+                span.textContent = achievement + game.achievementDescriptions[achievement];
+                td.append(span);
+            td.classList.add("CellWithComment");
+            tr.append(td);
             var td = document.createElement('td');
                 if(progress == 'Unlocked'){
-                    td.style.color = '#f1f1f1'
-                    td.textContent = progress
-                    tr.append(td)
+                    td.style.color = '#f1f1f1';
+                    td.textContent = progress;
+                    tr.append(td);
                 }
                 else{
-                    td.textContent = 'Locked'
-                    tr.append(td)
+                    td.textContent = 'Locked';
+                    tr.append(td);
                 }
-        achievementUpdate.append(tr)
+        achievementUpdate.append(tr);
     }
 });
 

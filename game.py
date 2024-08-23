@@ -40,7 +40,7 @@ AchievementDescriptions = {
     'Taste of Blood': 'Get your first kill',
     'Enemy of my Enemy': 'Get your first assist',
     'To the Victors': 'Win your first game',
-    'Mutually Assured Destruction': 'Be one of the last players standing when a game ends with no winner',
+    'Mutually Assured': 'Be one of the last players standing when a game ends with no winner',
     'Close Call': 'Attack a player using portal and survive',
     'Sabotoge': 'Use Disable',
     'Thumbs Up!': 'Win the game while using Charge',
@@ -76,7 +76,7 @@ def EvaluateAchievements(PlayerAchievements, PlayerList, NonEliminatedPlayers, E
                         PlayerAchievements[player][achievement] = "Unlocked"
                 
                 #Nobody Wins
-                elif achievement == 'Mutually Assured Destruction':
+                elif achievement == 'Mutually Assured':
                     if NonEliminatedPlayers == []:
                         PlayerAchievements[player][achievement] = "Unlocked"
                 
@@ -315,6 +315,9 @@ def EvaluateWarGame(GameMode, PlayerList, PlayerResources, PlayerMoves, PlayerPr
     return ({'Game State': 'Game is Ongoing', 'Eliminated Players': EliminatedPlayers, 'Remaining Players': NonEliminatedPlayers, 'Remaining Player Resources': PlayerResources, 'Updated Player Profiles': PlayerProfiles, 'Updated Player Achievements': PlayerAchievements})
 
 #%%
+def getAchievementDescriptions():
+    return AchievementDescriptions
+#%%
 # =============================================================================
 # '''Test Example (Gamemode, PlayerList, PlayerProfiles, PlayerResources, PlayerMoves, PlayerAchievements)'''
 # 
@@ -328,7 +331,7 @@ def EvaluateWarGame(GameMode, PlayerList, PlayerResources, PlayerMoves, PlayerPr
 #                                  'Taste of Blood': [],
 #                                  'Enemy of my Enemy': [],
 #                                  'To the Victors': [],
-#                                  'Mutually Assured Destruction': [],
+#                                  'Mutually Assured': [],
 #                                  'Close Call': [],
 #                                  'Sabotoge': [],
 #                                  'Thumbs Up!': [],
