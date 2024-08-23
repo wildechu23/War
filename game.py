@@ -220,7 +220,7 @@ def EvaluateWarGame(GameMode, PlayerList, PlayerResources, PlayerMoves, PlayerPr
         for move in PlayerMoves[player]["Moves"]:
             if move in ResourceMovesList:
                 PlayerResources[player][ResourceGainList[ResourceMovesList.index(move)]] = PlayerResources[player][ResourceGainList[ResourceMovesList.index(move)]] + 1
-            if move == 'Charge':
+            if move == 'Charge' or move == 'Pew-Charge':
                 PlayerProfiles[player]['Charges Acquired'] = PlayerProfiles[player]['Charges Acquired'] + 1
             if move == 'Block':
                 PlayerProfiles[player]['Blocks Acquired'] = PlayerProfiles[player]['Blocks Acquired'] + 1
