@@ -141,6 +141,18 @@ socket.on('update_game', function(game) {
             tbodyRef.append(tr);
         }
     }
+    var achievementUpdate = document.getElementById('achievement_ui');
+    for ([achievement, progress] of Object.entries(game.achievements[player_id])) {
+        var tr = document.createElement('td');
+        tr.append(achievement)
+        if(progress == 'Unlocked'){
+            tr.append(progress)
+        }
+        else{
+            tr.append('Locked')
+        }
+        achievementUpdate.append(tr)
+    }
 });
 
 socket.on('end_game', function(data) {
