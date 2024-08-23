@@ -33,6 +33,7 @@
       <div id="mySidenav" class="sidenav">
           <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
           <a href="#" onclick="openRules()">Rules</a>
+          <a href="#" onclick="openMoveInfo()">Move Catalog</a>
           <a href="#" onclick="openAchievements()">Achievements</a>
           <a href="#" onclick="openStats()">Stats</a>
           <a href="#" onclick="openContact()">Contact</a>
@@ -51,8 +52,8 @@
           <h2> The Objective: </h2>
           <p> 
               Each round, players will submit a move (and a target if required).
-              These moves may include acquiring resources, attacking players, or blocking/deflecting attacks. 
-              The game is played until one player remains (or none are left standing).
+              These moves may include acquiring <span style="color:#7cfc84">resources</span>, <span style="color:#f0170c">attacking</span> players, or <span style="color:#b3bdf5">shielding/deflecting</span> attacks. 
+              The game is played until one player remains or until none are left standing.
           </p>
           <h2> Types of Moves: </h2>
           <h3> Neutral:  </h3>
@@ -60,28 +61,28 @@
               Neutral moves are not directed at any specific player, hence the effects of the move apply to all players or no player. 
               Note that this does not mean that you do not interact with other players. 
               Neutral moves typically serve the purpose of either collecting resources or shielding against damage. 
+              <br>
+              <br><span style="font-size: 13px" >Ex. <span style="color:#7cfc84">Charge</span> gives the player one charge resources<br>
+              <br>Ex. <span style="color:#b3bdf5">Reflect</span> redirects an enemy’s attack back at them. </span><br>
 
-              Ex. Charge gives the player one charge resources
-              Ex. Reflect redirects an enemy’s attack back at them. 
-
-              Neutral moves are not combinable unless specified. 
-              Ex. Charge - Reflect is an invalid move.
+              <br>Neutral moves are not combinable unless specified.<br> 
+              <br><span style="font-size: 13px" >Ex. <span style="color:#7cfc84">Charge</span> - <span style="color:#b3bdf5">Reflect</span> is an invalid move.</span>
           </p>
           <h3> Attacking:  </h3>
           <p>
               Attacking moves are always attacks directed at a specific player. 
               This attack interacts directly with the targetted player, and only the targeted player.
-
-              Ex. Player A and Player B use Charge. 
-              Player C uses Pew on Player A. 
-              Player B still lives.
+              <br>
+              <br><span style="font-size: 13px" >Ex. Player A and Player B use <span style="color:#7cfc84">Charge</span>.<br> 
+              Player C uses <span style="color:#f0170c">Pew</span> on Player A. 
+              Player B still lives.</span><br>
               
-              Ex. Player A and Player B use Pew on each other. 
-              Player C uses Pew on Player A. 
-              A and B's attacks cancel out, but Player C still defeats Player A.
+              <br><span style="font-size: 13px" >Ex. Player A and Player B use <span style="color:#f0170c">Pew</span> on each other. Player C uses <span style="color:#f0170c">Pew</span> on Player A. 
+              <br>A and B's attacks cancel out, but Player C still defeats Player A.</span><br>
               
-              Attacking moves can always be combined (unless specified).
-              Ex. Sniper-Pew is a valid move
+              <br>Attacking moves can always be combined (unless specified).
+              Even though multiple weapons may be used, there may still only be one target.<br>
+              <br><span style="font-size: 13px" >Ex. <span style="color:#f0170c">Sniper - Pew</span> is a valid move</span>
           </p>
           <h2> Interactions: </h2>
           <p>
@@ -102,6 +103,12 @@
               As the name implies, a pew is combined with a charge, hence the player chooses a player to attack with one damage, while simultaneously gaining a charge. 
               This is the only way a player can attack and gain resources at the same time. 
           </p>
+      </span>
+      <!--Move Info -->
+      <span id="MoveInfo" class="sidenav">
+          <a href="javascript:void(0)" class="closebtn" onclick="closeMoveInfo()">&times;</a>
+          <h1> Move Catalog </h1>
+          </table>
       </span>
       <!--Achievements -->
       <span id="Achievements" class="sidenav">

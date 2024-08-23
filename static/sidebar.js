@@ -10,6 +10,12 @@ function openRules() {
 function closeRules() {
     document.getElementById("Rules").style.width = "0";
 }
+function openMoveInfo() {
+    document.getElementById("MoveInfo").style.width = "300px";
+}
+function closeMoveInfo() {
+    document.getElementById("MoveInfo").style.width = "0";
+}
 function openAchievements() {
     document.getElementById("Achievements").style.width = "300px";
 }
