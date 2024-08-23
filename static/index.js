@@ -142,15 +142,23 @@ socket.on('update_game', function(game) {
         }
     }
     var achievementUpdate = document.getElementById('achievement_ui');
+    achievementUpdate.innerHTML = '';
     for ([achievement, progress] of Object.entries(game.achievements[player_id])) {
-        var tr = document.createElement('td');
-        tr.append(achievement)
-        if(progress == 'Unlocked'){
-            tr.append(progress)
-        }
-        else{
-            tr.append('Locked')
-        }
+        var tr = document.createElement('tr');
+            var td = document.createElement('td');
+            td.style.color = '#f1f1f1'
+            td.textContent = achievement
+            tr.append(td)
+            var td = document.createElement('td');
+                if(progress == 'Unlocked'){
+                    td.style.color = '#f1f1f1'
+                    td.textContent = progress
+                    tr.append(td)
+                }
+                else{
+                    td.textContent = 'Locked'
+                    tr.append(td)
+                }
         achievementUpdate.append(tr)
     }
 });
