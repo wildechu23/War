@@ -19,6 +19,27 @@ def init_db():
     with current_app.open_resource('schema.sql') as f:
         db.executescript(f.read().decode('utf8'))
 
+def init_achievements():
+    db = get_db()
+
+    try:
+        db.execute(
+            "DROP TABLE IF EXISTS Achievements",
+        )
+        db.commit()
+
+        db.execute('''
+            CREATE TABLE Achievements (
+                AchievementID INTEGER PRIMARY KEY,
+                Title TEXT NOT NULL,
+                Details TEXT
+            );
+        ''',
+        )
+        db.commit()
+    except:
+        print("Error on creating Achievements")
+
 def add_achievements():
     db = get_db()
 
@@ -59,9 +80,20 @@ def unlock_achievement(user, title):
 def get_achievements(user):
     db = get_db()
     
-    return db.execute(
-        'SELECT * FROM UserAchievements WHERE UserID = ?', (user,)
-    ).fetchall()
+    return db.execute('''
+        SELECT a.AchievementID,
+               a.Title,
+               a.Details, 
+               CASE 
+                   WHEN ua.UserID IS NOT NULL THEN 1 
+                   ELSE 0 
+               END AS HasAchievement
+        FROM Achievements a
+        LEFT JOIN UserAchievements ua
+        ON a.AchievementID = ua.AchievementID 
+        AND ua.UserID = ?
+    ''', (user,)).fetchall()
+    
 
 
 def get_missing_achievements(user):
@@ -83,6 +115,12 @@ def init_db_command():
     add_achievements()
     click.echo('Initialized the database.')
 
+@click.command('add-db')
+def add_db_command():
+    init_achievements()
+    add_achievements()
+    click.echo('Added Achievements')
+
 
 def close_db(e=None):
     db = g.pop('db', None)
@@ -93,3 +131,4 @@ def close_db(e=None):
 def init_app(app):
     app.teardown_appcontext(close_db)
     app.cli.add_command(init_db_command)
+    app.cli.add_command(add_db_command)

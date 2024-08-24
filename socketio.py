@@ -1,5 +1,6 @@
 import uuid
 from . import socketio
+from flask import g
 from flask_socketio import Namespace, emit, join_room, leave_room, close_room
 from .game import EvaluateWarGame
 from .game import getAchievementDescriptions
@@ -47,7 +48,6 @@ class MainNamespace(Namespace):
             from .db import get_missing_achievements
 
             missing = get_missing_achievements(player)
-            print("fuck")
             games[room_id]['achievements'][player] = {}
             for achievement in missing:
                 games[room_id]['achievements'][player][achievement['Title']] = False
@@ -115,11 +115,13 @@ class MainNamespace(Namespace):
         rooms[room_id]['state'] = 'playing'
         self.create_game(room_id, rooms[room_id]['players'])
 
-        from .game import AchievementDescriptions
-        emit('start_game', {
-            'achievements': AchievementDescriptions
-        }, room=room_id)
+        emit('start_game', {}, room=room_id)
         emit('update_game', games[room_id], room=room_id)
+
+    def on_get_achievements(self, data):
+        from .db import get_achievements
+        emit('update_achievements', [dict(row) for row in get_achievements(data['player_id'])])
+
 
     def on_submit_move(self, data):
         room_id = data['room_id']

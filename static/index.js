@@ -100,40 +100,44 @@ socket.on('player_left', function(data) {
     }
 });
 
-socket.on('start_game', function(data) {
+socket.on('start_game', function() {
     document.getElementById('room').style.display = 'none';
     document.getElementById('game').style.display = 'block';
 
-    var achievements = data.achievements;
+    socket.emit('get_achievements', { player_id: player_id });
+});
+
+socket.on('update_achievements', function(data) {
     var achievementUpdate = document.getElementById('achievement_ui');
     achievementUpdate.innerHTML = '';
-    for (const [achievement, description] of Object.entries(achievements)) {
+
+    data.forEach(item => {
         var tr = document.createElement('tr');
 
         var td = document.createElement('td');
-        td.textContent = achievement;
+        td.textContent = item.Title;
 
         var span = document.createElement('span');
         span.classList.add("CellComment");    
-        span.textContent = achievement + description;
+        span.textContent = item.Title + item.Details;
         td.append(span);
 
         td.classList.add("CellWithComment");
         tr.append(td);
         var td = document.createElement('td');
         
-        // if(progress == 'Unlocked'){
-        //     td.style.color = '#f1f1f1';
-        //     td.textContent = progress;
-        //     tr.append(td);
-        // }
-        // else{
-        //     td.textContent = 'Locked';
-        //     tr.append(td);
-        // }
+        if(item.HasAchievement){
+            td.style.color = '#f1f1f1';
+            td.textContent = "Unlocked";
+            tr.append(td);
+        }
+        else{
+            td.textContent = 'Locked';
+            tr.append(td);
+        }
         achievementUpdate.append(tr);
-    }
-});
+    })
+})
 
 
 socket.on('update_game', function(game) {
