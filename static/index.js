@@ -103,6 +103,36 @@ socket.on('player_left', function(data) {
 socket.on('start_game', function(data) {
     document.getElementById('room').style.display = 'none';
     document.getElementById('game').style.display = 'block';
+
+    var achievements = data.achievements;
+    var achievementUpdate = document.getElementById('achievement_ui');
+    achievementUpdate.innerHTML = '';
+    for (const [achievement, description] of Object.entries(achievements)) {
+        var tr = document.createElement('tr');
+
+        var td = document.createElement('td');
+        td.textContent = achievement;
+
+        var span = document.createElement('span');
+        span.classList.add("CellComment");    
+        span.textContent = achievement + description;
+        td.append(span);
+
+        td.classList.add("CellWithComment");
+        tr.append(td);
+        var td = document.createElement('td');
+        
+        // if(progress == 'Unlocked'){
+        //     td.style.color = '#f1f1f1';
+        //     td.textContent = progress;
+        //     tr.append(td);
+        // }
+        // else{
+        //     td.textContent = 'Locked';
+        //     tr.append(td);
+        // }
+        achievementUpdate.append(tr);
+    }
 });
 
 
@@ -141,32 +171,7 @@ socket.on('update_game', function(game) {
             tbodyRef.append(tr);
         }
     }
-    var achievementUpdate = document.getElementById('achievement_ui');
-    achievementUpdate.innerHTML = '';
-    for ([achievement, progress] of Object.entries(game.achievements[player_id])) {
-        var tr = document.createElement('tr');
-            var td = document.createElement('td');
-            td.style.color = '#f1f1f1';
-            tr.style.height = '30px';
-            td.textContent = achievement;
-                var span = document.createElement('span');
-                span.classList.add("CellComment");    
-                span.textContent = achievement + game.achievementDescriptions[achievement];
-                td.append(span);
-            td.classList.add("CellWithComment");
-            tr.append(td);
-            var td = document.createElement('td');
-                if(progress == 'Unlocked'){
-                    td.style.color = '#f1f1f1';
-                    td.textContent = progress;
-                    tr.append(td);
-                }
-                else{
-                    td.textContent = 'Locked';
-                    tr.append(td);
-                }
-        achievementUpdate.append(tr);
-    }
+    
 });
 
 socket.on('end_game', function(data) {

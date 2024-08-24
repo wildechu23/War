@@ -130,8 +130,9 @@ header .action {
     display: block;
 }
 
-#achievement_id {
-    padding: 0px 10px;
+#achievement_ui td {
+    color: #f1f1f1;
+    height: 30px;
 }
 
 #move_input {

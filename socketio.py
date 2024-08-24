@@ -43,20 +43,15 @@ class MainNamespace(Namespace):
                 'Charges Acquired': 0,
                 'Blocks Acquired': 0
             }
-            games[room_id]['achievements'][player]= {
-                'Noob': [],
-                'Taste of Blood': [],
-                'Enemy of my Enemy': [],
-                'To the Victors': [],
-                'Mutually Assured': [],
-                'Close Call': [],
-                'Sabotoge': [],
-                'Thumbs Up!': [],
-                'Bruh': [],
-                'Stormtrooper': [],
-                'Jack of All Trades': [],
-                'Lack of All Trades': []
-            }
+
+            from .db import get_missing_achievements
+
+            missing = get_missing_achievements(player)
+            print("fuck")
+            games[room_id]['achievements'][player] = {}
+            for achievement in missing:
+                games[room_id]['achievements'][player][achievement['Title']] = False
+            
             games[room_id]['moves'][player] = None
             games[room_id]['alive'][player] = True
 
@@ -119,7 +114,11 @@ class MainNamespace(Namespace):
         room_id = data['room_id']
         rooms[room_id]['state'] = 'playing'
         self.create_game(room_id, rooms[room_id]['players'])
-        emit('start_game', {'players': rooms[room_id]['players']}, room=room_id)
+
+        from .game import AchievementDescriptions
+        emit('start_game', {
+            'achievements': AchievementDescriptions
+        }, room=room_id)
         emit('update_game', games[room_id], room=room_id)
 
     def on_submit_move(self, data):
@@ -150,12 +149,34 @@ class MainNamespace(Namespace):
             
 
     def process_moves(self, game):
-        ReturnInfo = EvaluateWarGame(game['mode'], [player for player in game['alive'] if game['alive'][player] == True], game['players'], game['moves'], game['profiles'], game['achievements'])
+        ReturnInfo = EvaluateWarGame(
+            game['mode'], 
+            [player for player in game['alive'] if game['alive'][player] == True], 
+            game['players'], 
+            game['moves'], 
+            game['profiles'], 
+            game['achievements']
+        )
         #Update game alive, players, and profiles
-        game['alive'] = {player: True if player in ReturnInfo['Remaining Players'] else False for player in game['alive']}
-        game['players'] = {player: ReturnInfo['Remaining Player Resources'][player] if player in ReturnInfo['Remaining Players'] else game['players'][player] for player in game['alive']}
-        game['profiles'] = {player: ReturnInfo['Updated Player Profiles'][player] if player in ReturnInfo['Updated Player Profiles'] else game['profiles'][player] for player in game['alive']}
-        game['achievements'] = {player: ReturnInfo['Updated Player Achievements'][player] if player in ReturnInfo['Updated Player Achievements'] else game['achievements'][player] for player in game['alive']}
+        game['alive'] = {
+            player: True if player in ReturnInfo['Remaining Players'] 
+                else False for player in game['alive']
+        }
+        game['players'] = {
+            player: ReturnInfo['Remaining Player Resources'][player] 
+                if player in ReturnInfo['Remaining Players'] 
+                else game['players'][player] for player in game['alive']
+        }
+        game['profiles'] = {
+            player: ReturnInfo['Updated Player Profiles'][player] 
+                if player in ReturnInfo['Updated Player Profiles'] 
+                else game['profiles'][player] for player in game['alive']
+        }
+        game['achievements'] = {
+            player: ReturnInfo['Updated Player Achievements'][player] 
+                if player in ReturnInfo['Updated Player Achievements'] 
+                else game['achievements'][player] for player in game['alive']
+        }
         print(game['alive'])
         print(game['players'])
         print(game['profiles'])

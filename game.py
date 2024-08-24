@@ -42,101 +42,99 @@ AchievementDescriptions = {
     'To the Victors': 'Win your first game',
     'Mutually Assured': 'Be one of the last players standing when a game ends with no winner',
     'Close Call': 'Attack a player using portal and survive',
-    'Sabotoge': 'Use Disable',
+    'Sabotage': 'Use Disable',
     'Thumbs Up!': 'Win the game while using Charge',
     'Bruh': 'Use Bazooka, Flaming, and Unbreakable in one turn',
     'Stormtrooper': 'Fail to get kill credit (kills/assists) with 5 pews/pew-charges in a row',
     'Jack of All Trades': 'Win with every move',
     'Lack of All Trades': 'Lose with every move'
-    }
+}
 
 #%%
 def EvaluateAchievements(PlayerAchievements, PlayerList, NonEliminatedPlayers, EliminatedPlayers, IllegalElimination, OriginalMoves, PlayerMoves, PlayerProfiles, KillCredits):
+    from .db import unlock_achievement
     for player in PlayerList:
-        for achievement in PlayerAchievements[player]:
-            #Only update achievement if it hasn't been acquired
-            if PlayerAchievements[player][achievement] != "Unlocked":
-                #First Move
-                if achievement == 'Noob':
-                    if player not in IllegalElimination:
-                        PlayerAchievements[player][achievement] = "Unlocked"
-                #First Kill
-                if achievement == 'Taste of Blood':
-                    if PlayerProfiles[player]["Total Kills"] > 0:
-                        PlayerAchievements[player][achievement] = "Unlocked"
-                        
-                #First Assist
-                elif achievement == 'Enemy of my Enemy':
-                    if PlayerProfiles[player]["Total Assists"] > 0:
-                        PlayerAchievements[player][achievement] = "Unlocked"
+        #First Move
+        if 'Noob' in PlayerAchievements[player] and player not in IllegalElimination:
+            del PlayerAchievements[player]['Noob']
+            unlock_achievement(player, 'Noob')
+ 
+        #First Kill
+        if 'Taste of Blood' in PlayerAchievements[player] and PlayerProfiles[player]["Total Kills"] > 0:
+            del PlayerAchievements[player]['Taste of Blood']
+            unlock_achievement(player, 'Taste of Blood')
+
+        #First Assist
+        if 'Enemy of my Enemy' in PlayerAchievements[player] and PlayerProfiles[player]["Total Assists"] > 0:
+            del PlayerAchievements[player]['Enemy of my Enemy']
+            unlock_achievement(player, 'Enemy of my Enemy')
+
+        #First Win
+        if 'To the Victors' in PlayerAchievements[player] and [player] == NonEliminatedPlayers:
+            del PlayerAchievements[player]['To the Victors']
+            unlock_achievement(player, 'To the Victors')
+            
+        #Nobody Wins
+        if 'Mutually Assured' in PlayerAchievements[player] and NonEliminatedPlayers == []:
+            del PlayerAchievements[player]['Mutually Assured']
+            unlock_achievement(player, 'Mutually Assured')
+
+        #Survive Attacking Portal
+        if 'Close Call' in PlayerAchievements[player] and OriginalMoves[player]['Target'] != '' and 'Portal' in PlayerMoves[OriginalMoves[player]['Target']]['Moves']:
+            del PlayerAchievements[player]['Close Call']
+            unlock_achievement(player, 'Close Call')
+
+        #Use Disable
+        if 'Sabotage' in PlayerAchievements[player] and 'Disable' in PlayerMoves[player]['Moves'] and player not in IllegalElimination:
+            del PlayerAchievements[player]['Sabotage']
+            unlock_achievement(player, 'Sabotage') 
+            
+        #Win With Charge
+        if 'Thumbs Up!' in PlayerAchievements[player] and [player] == NonEliminatedPlayers and 'Charge' in PlayerMoves[player]['Moves']:
+            del PlayerAchievements[player]['Thumbs Up!']
+            unlock_achievement(player, 'Thumbs Up!')
+            
+        #Bazooka + Flaming + Unbreakable
+        if 'Bruh' in PlayerAchievements[player] and player not in IllegalElimination and 'Bazooka' in PlayerMoves[player]['Moves'] and 'Flaming' in PlayerMoves[player]['Moves'] and 'Unbreakable' in PlayerMoves[player]['Moves']:
+            del PlayerAchievements[player]['Bruh']
+            unlock_achievement(player, 'Bruh')
+            
+        # #Miss 5 pew/pew-charges in a row
+        # elif achievement == 'StormTrooper':
+        #     #Has to be legal
+        #     if 'Pew-Charge' in PlayerMoves[player]['Moves'] or 'Pew' in PlayerMoves[player]['Moves']:
+        #         IncreaseMissCount = 1
+        #         for eliminatedplayer in EliminatedPlayers:
+        #             if eliminatedplayer not in IllegalElimination and player in KillCredits[eliminatedplayer]:
+        #                 IncreaseMissCount = 0
+        #                 PlayerAchievements[player][achievement] = [0]
+        #         if IncreaseMissCount == 1:
+        #             PlayerAchievements[player][achievement] = [PlayerAchievements[player][achievement][0] + 1]
+        #     if PlayerAchievements[player][achievement] == 5:
+        #         PlayerAchievements[player][achievement] = "Unlocked" 
+        
+        # elif achievement == 'Jack of All Trades':
+        #     Changed = 0
+        #     if [player] == NonEliminatedPlayers:
+        #         for move in OriginalMoves[player]['Moves']:
+        #             if move not in PlayerAchievements[player][achievement]:
+        #                 PlayerAchievements[player][achievement] = PlayerAchievements[player][achievement] + [move]
+        #                 Changed = 1
+        #     if Changed == 1 and 0 not in [1 if move in PlayerAchievements[player][achievement] else 0 for move in Movedata]:
+        #         PlayerAchievements[player][achievement] = "Unlocked" 
+        
+        # elif achievement == 'Lack of All Trades':
+        #     Changed = 0
+        #     if player in EliminatedPlayers:
+        #         for move in OriginalMoves[player]['Moves']:
+        #             if move not in PlayerAchievements[player][achievement]:
+        #                 PlayerAchievements[player][achievement] = PlayerAchievements[player][achievement] + [move]
+        #                 Changed = 1
+        #     if Changed == 1 and 0 not in [1 if move in PlayerAchievements[player][achievement] else 0 for move in Movedata]:
+        #         PlayerAchievements[player][achievement] = "Unlocked"   
                 
-                #First Win
-                elif achievement == 'To the Victors':
-                    if [player] == NonEliminatedPlayers:
-                        PlayerAchievements[player][achievement] = "Unlocked"
-                
-                #Nobody Wins
-                elif achievement == 'Mutually Assured':
-                    if NonEliminatedPlayers == []:
-                        PlayerAchievements[player][achievement] = "Unlocked"
-                
-                #Survive Attacking Portal
-                elif achievement == 'Close Call':
-                    if player in NonEliminatedPlayers and OriginalMoves[player]['Target'] != '':
-                        if 'Portal' in PlayerMoves[OriginalMoves[player]['Target']]['Moves']:
-                            PlayerAchievements[player][achievement] = "Unlocked"
-                
-                #Use Disable
-                elif achievement == 'Sabotoge':
-                    if 'Disable' in PlayerMoves[player]['Moves'] and player not in IllegalElimination:
-                        PlayerAchievements[player][achievement] = "Unlocked"
-                        
-                #Win with Charge
-                elif achievement == 'Thumbs Up!':
-                    if [player] == NonEliminatedPlayers and 'Charge' in PlayerMoves[player]['Moves']:
-                        PlayerAchievements[player][achievement] = "Unlocked"    
-                        
-                #Bazooka-Flaming-Unbreakable
-                elif achievement == 'Bruh':
-                    if player not in IllegalElimination and 'Bazooka' in PlayerMoves[player]['Moves'] and 'Flaming' in PlayerMoves[player]['Moves'] and 'Unbreakable' in PlayerMoves[player]['Moves']:
-                        PlayerAchievements[player][achievement] = "Unlocked"  
-                
-                #Miss 5 pew/pew-charges in a row
-                elif achievement == 'StormTrooper':
-                    #Has to be legal
-                    if 'Pew-Charge' in PlayerMoves[player]['Moves'] or 'Pew' in PlayerMoves[player]['Moves']:
-                        IncreaseMissCount = 1
-                        for eliminatedplayer in EliminatedPlayers:
-                            if eliminatedplayer not in IllegalElimination and player in KillCredits[eliminatedplayer]:
-                                IncreaseMissCount = 0
-                                PlayerAchievements[player][achievement] = [0]
-                        if IncreaseMissCount == 1:
-                            PlayerAchievements[player][achievement] = [PlayerAchievements[player][achievement][0] + 1]
-                    if PlayerAchievements[player][achievement] == 5:
-                        PlayerAchievements[player][achievement] = "Unlocked" 
-                
-                elif achievement == 'Jack of All Trades':
-                    Changed = 0
-                    if [player] == NonEliminatedPlayers:
-                        for move in OriginalMoves[player]['Moves']:
-                            if move not in PlayerAchievements[player][achievement]:
-                                PlayerAchievements[player][achievement] = PlayerAchievements[player][achievement] + [move]
-                                Changed = 1
-                    if Changed == 1 and 0 not in [1 if move in PlayerAchievements[player][achievement] else 0 for move in Movedata]:
-                        PlayerAchievements[player][achievement] = "Unlocked" 
-                
-                elif achievement == 'Lack of All Trades':
-                    Changed = 0
-                    if player in EliminatedPlayers:
-                        for move in OriginalMoves[player]['Moves']:
-                            if move not in PlayerAchievements[player][achievement]:
-                                PlayerAchievements[player][achievement] = PlayerAchievements[player][achievement] + [move]
-                                Changed = 1
-                    if Changed == 1 and 0 not in [1 if move in PlayerAchievements[player][achievement] else 0 for move in Movedata]:
-                        PlayerAchievements[player][achievement] = "Unlocked"   
-                        
-                if PlayerAchievements[player][achievement] == "Unlocked":
-                    print(player, "has unlocked the achievement", achievement, ": " + AchievementDescriptions[achievement])
+        # if PlayerAchievements[player][achievement] == "Unlocked":
+        #     print(player, "has unlocked the achievement", achievement, ": " + AchievementDescriptions[achievement])
 
 #%%                    
 def EvaluateWarGame(GameMode, PlayerList, PlayerResources, PlayerMoves, PlayerProfiles, PlayerAchievements):
@@ -333,7 +331,7 @@ def getAchievementDescriptions():
 #                                  'To the Victors': [],
 #                                  'Mutually Assured': [],
 #                                  'Close Call': [],
-#                                  'Sabotoge': [],
+#                                  'Sabotage': [],
 #                                  'Thumbs Up!': [],
 #                                  'Bruh': [],
 #                                  'Stormtrooper': [],
