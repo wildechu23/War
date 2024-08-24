@@ -9,5 +9,6 @@ from .db import get_db
 bp = Blueprint('lobby', __name__)
 
 @bp.route('/')
+@login_required
 def index():
     return render_template('index.html')

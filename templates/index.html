@@ -5,8 +5,8 @@
     integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA=="
     crossorigin="anonymous"
 </script>
-<div id="login">
-  <h1>Stinky</h1>
+<div class="page" id="login">
+  <h1>Join a Room</h1>
   <input type="text" id="player_id" placeholder="Enter Player ID">
   <button type="button" id="create_room">Create Room</button>
   <h2>Available Rooms</h2>
@@ -15,7 +15,7 @@
       <!-- List of rooms will be dynamically updated here -->
   </ul>
 </div>
-<div id="room" style="display: none;">
+<div class="page" id="room" style="display: none;">
   <h1 id="current_room"></h1>
   <button type="button" id="leave_room">Leave Room</button>
   <button type="button" id="start_game" disabled>Start</button>
@@ -23,7 +23,7 @@
       <!-- List of users will be dynamically updated here -->
   </ul>
 </div>
-<div id="game" style="display: none;">
+<div class="page" id="game" style="display: none;">
   <div>
       <h1 style="display: inline;" id="round_number"></h1>
       <!--Open Menu -->
