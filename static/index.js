@@ -119,7 +119,7 @@ socket.on('update_achievements', function(data) {
 
         var span = document.createElement('span');
         span.classList.add("CellComment");    
-        span.textContent = item.Title + item.Details;
+        span.innerHTML = "<span style=\"font-weight: bold; font-size:13px \">" + item.Title + "</span><br><br>" + item.Details;
         td.append(span);
 
         td.classList.add("CellWithComment");
