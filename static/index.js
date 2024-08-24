@@ -109,7 +109,9 @@ socket.on('start_game', function() {
 
 socket.on('update_achievements', function(data) {
     var achievementUpdate = document.getElementById('achievement_ui');
-    achievementUpdate.innerHTML = '';
+    
+    var tbodyRef = achievementUpdate.getElementsByTagName('tbody')[0];
+    tbodyRef.innerHTML = '';
 
     data.forEach(item => {
         var tr = document.createElement('tr');
@@ -135,7 +137,7 @@ socket.on('update_achievements', function(data) {
             td.textContent = 'Locked';
             tr.append(td);
         }
-        achievementUpdate.append(tr);
+        tbodyRef.append(tr);
     })
 })
 
