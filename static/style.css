@@ -129,11 +129,133 @@ header .action {
 .CellWithComment:hover span.CellComment {
     display: block;
 }
-
-.dropdown-btn {
-  padding: 6px 8px 6px 16px;
+.dropdown-container {
+  display: none;
+  background-color: 262626;
+  padding-left: 0px;
+}
+/*Resources*/
+.dropdown-btn-resource {
+  padding: 6px 8px 6px 8px;
   text-decoration: none;
   font-size: 20px;
+  font-weight: bold;
+  color: green;
+  display: block;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+}
+.dropdown-btn-resource:hover {
+    color: #7cfc84;
+}
+.active-resource {
+  background-color: green;
+  color: #7cfc84;
+}
+
+.dropdown-container-resource {
+  display: none;
+  background-color: #262626;
+  padding-left: 0px;
+}
+
+/*Attacking*/
+.dropdown-btn-attack {
+  padding: 6px 8px 6px 8px;
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: bold;
+  color: red;
+  display: block;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+}
+.dropdown-btn-attack:hover {
+    color:#f0170c;
+}
+.active-attack {
+  background-color: red;
+  color:#f0170c;
+}
+
+.dropdown-container-attack {
+  display: none;
+  background-color: #262626;
+  padding-left: 0px;
+}
+
+/*Defense*/
+.dropdown-btn-defense {
+  padding: 6px 8px 6px 8px;
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: bold;
+  color: blue;
+  display: block;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+}
+.dropdown-btn-defense:hover {
+    color:#b3bdf5;
+}
+.active-defense {
+  background-color: blue;
+  color:#b3bdf5;
+}
+
+.dropdown-container-defense {
+  display: none;
+  background-color: #262626;
+  padding-left: 0px;
+}
+
+/*Special*/
+.dropdown-btn-special {
+  padding: 6px 8px 6px 8px;
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: bold;
+  color: purple;
+  display: block;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+}
+.dropdown-btn-special:hover {
+    color:#e389f5;
+}
+.active-special {
+  background-color: purple;
+  color:#e389f5;
+}
+
+.dropdown-container-special {
+  display: none;
+  background-color: #262626;
+  padding-left: 0px;
+}
+
+/*General*/
+.dropdown-btn-general {
+  padding: 6px 8px 6px 8px;
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: bold;
   color: #818181;
   display: block;
   border: none;
@@ -143,20 +265,22 @@ header .action {
   cursor: pointer;
   outline: none;
 }
-.active {
-  background-color: green;
-  color: white;
+.dropdown-btn-general:hover {
+    color: #f1f1f1;
+}
+.active-general {
+  background-color: gray;
+  color: #f1f1f1;
 }
 
-.dropdown-container {
+.dropdown-container-general {
   display: none;
   background-color: #262626;
-  padding-left: 8px;
+  padding-left: 0px;
 }
 
 .fa-caret-down {
   float: right;
-  padding-right: 8px;
 }
 
 #achievement_ui td {
