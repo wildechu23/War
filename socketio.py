@@ -1,9 +1,8 @@
 import uuid
 from . import socketio
-from flask import g
 from flask_socketio import Namespace, emit, join_room, leave_room, close_room
-from .game import EvaluateWarGame
-from .game import getAchievementDescriptions
+from .game import EvaluateWarGame, getAchievementDescriptions
+from .db import get_username, get_missing_achievements
 
 rooms = {}
 games = {}
@@ -27,8 +26,11 @@ class MainNamespace(Namespace):
             'achievements':{},
             'achievementDescriptions': getAchievementDescriptions()
         }
-        for player in players:
+
+        for player_obj in players:
+            player = player_obj['player_id']
             games[room_id]['players'][player] = {
+                'Username': player_obj['username'],
                 'Charges': 0,
                 'Blocks': 0,
                 'Magical Shards': 0,
@@ -44,8 +46,6 @@ class MainNamespace(Namespace):
                 'Charges Acquired': 0,
                 'Blocks Acquired': 0
             }
-
-            from .db import get_missing_achievements
 
             missing = get_missing_achievements(player)
             games[room_id]['achievements'][player] = {}
@@ -63,11 +63,13 @@ class MainNamespace(Namespace):
 
         if room_id not in rooms:
             self.create_room(room_id)
-            rooms[room_id]['players'].append(player_id)
+            username = get_username(player_id)
+
+            rooms[room_id]['players'].append({ 'player_id': player_id, 'username': username })
             rooms[room_id]['leader'] = player_id
             join_room(room_id)
             emit('room_joined', { 'room_id': room_id, 'leader': player_id })
-            emit('player_joined', {'player_id': player_id, }, room=room_id)
+            emit('player_joined', {'player_id': player_id, 'username': username}, room=room_id)
         else:
             emit('error', {'message': 'Room already exists'})
 
@@ -77,10 +79,12 @@ class MainNamespace(Namespace):
 
         room = rooms.get(room_id)
         if room:
-            emit('player_joined', {'player_id': player_id}, room=room_id)
+            username = get_username(player_id)
+            emit('player_joined', {'player_id': player_id, 'username': username}, room=room_id)
             
             join_room(room_id)
-            room['players'].append(player_id)
+            
+            room['players'].append({ 'player_id': player_id, 'username': username })
             emit('room_joined', { 
                 'room_id': room_id, 
                 'players': room['players'],
@@ -98,13 +102,17 @@ class MainNamespace(Namespace):
         if room:
             emit('room_left')
             leave_room(room_id)
-            room['players'].remove(player_id)
+            room['players'] = [player for player in room['players'] if player['player_id'] != player_id]
             emit('player_left', {'player_id': player_id}, room=room_id)
 
             if(len(room['players']) == 0):
                 close_room(room_id)
                 del rooms[room_id]
             
+    def on_get_user(self):
+        from .db import get_user
+        user = get_user()
+        emit('user', {'id': user[0], 'username': user[1]})
 
     def on_get_rooms(self):
         available_rooms = [room_id for room_id, room in rooms.items() if room['state'] == 'waiting']

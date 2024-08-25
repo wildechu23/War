@@ -1,7 +1,7 @@
 import sqlite3
 
 import click
-from flask import current_app, g
+from flask import current_app, g, session
 
 def get_db():
     if 'db' not in g:
@@ -12,6 +12,29 @@ def get_db():
         g.db.row_factory = sqlite3.Row
 
     return g.db
+
+def get_user():
+    user_id = session.get('user_id')
+
+    if user_id:
+        db = get_db()
+
+        user = db.execute(
+            'SELECT UserID, Username FROM Users WHERE UserID = ?', 
+            (user_id,)
+        ).fetchone()
+
+        return user
+    
+def get_username(id):
+    db = get_db()
+    print(id)
+    username = db.execute(
+        'SELECT Username FROM Users WHERE UserID = ?', 
+        (id,)
+    ).fetchone()
+    
+    return username[0] if username else None
 
 def init_db():
     db = get_db()

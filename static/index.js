@@ -1,11 +1,17 @@
 var socket = io();
-var player_id = '';
+var player_profile = {};
 var current_room = '';
 
 socket.on('connect', function() {
     console.log("stinky");
+    socket.emit('get_user')
     socket.emit('get_rooms');
 });
+
+socket.on('user', function(data) {
+    player_profile = data;
+    document.getElementById('player_id').innerHTML = player_profile.username;
+})
 
 socket.on('rooms_list', function(rooms) {
     var roomsListElement = document.getElementById('rooms_list');
@@ -24,22 +30,22 @@ socket.on('rooms_list', function(rooms) {
 });
 
 function join_room(room_id) {
-    if(!player_id) {
+    if(!player_profile.id) {
         alert("Invalid player id")
     } else {
-        socket.emit('join_room', {room_id: room_id, player_id: player_id});
+        socket.emit('join_room', {room_id: room_id, player_id: player_profile.id});
     }
 }
 
 function leave_room() {
-    socket.emit('leave_room', {room_id: current_room, player_id: player_id});
+    socket.emit('leave_room', {room_id: current_room, player_id: player_profile.id});
 }
 
 function create_room() {
-    if(!player_id) {
+    if(!player_profile.id) {
         alert("Invalid player id")
     } else {
-        socket.emit('create_room', {player_id: player_id});
+        socket.emit('create_room', {player_id: player_profile.id});
     }
 }
 
@@ -52,16 +58,18 @@ socket.on('room_joined', function(data) {
     document.getElementById('login').style.display = 'none';
     document.getElementById('room').style.display = 'block';
     document.getElementById('current_room').textContent = 'Room ID: ' + current_room;
-    if(data.leader === player_id) {
+    if(data.leader === player_profile.id) {
         document.getElementById('start_game').disabled = false;
     }
     
     var playerList = document.getElementById('player_list');
     playerList.innerHTML = '';
     if(players) {
+        lobby_players = players
+
         players.forEach(function(player) {
             var li = document.createElement('li');
-            li.textContent = player;
+            li.textContent = player['username'];
             playerList.append(li);
         });
     }
@@ -78,11 +86,12 @@ socket.on('room_left', function() {
 
 socket.on('player_joined', function(data) {
     var new_player_id = data.player_id;
+    var new_player_username = data.username;
 
     // Add the player who joined
     var playerListElement = document.getElementById('player_list');
     var li = document.createElement('li');
-    li.textContent = new_player_id;
+    li.textContent = new_player_username;
     li.id = 'player-' + new_player_id;
 
     playerListElement.append(li);
@@ -104,7 +113,7 @@ socket.on('start_game', function() {
     document.getElementById('room').style.display = 'none';
     document.getElementById('game').style.display = 'block';
 
-    socket.emit('get_achievements', { player_id: player_id });
+    socket.emit('get_achievements', { player_id: player_profile.id });
 });
 
 socket.on('update_achievements', function(data) {
@@ -151,9 +160,9 @@ socket.on('update_game', function(game) {
     tbodyRef.innerHTML = '';
     for (const [id, player] of Object.entries(game.players)) {
         var tr = document.createElement('tr');
-        var idElement = document.createElement('td');
-        idElement.textContent = idElement;
-        tr.append(id);
+        // var idElement = document.createElement('td');
+        // idElement.textContent = idElement;
+        // tr.append(id);
 
         for (const [key, value] of Object.entries(player)) {
             var td = document.createElement('td');
@@ -167,10 +176,10 @@ socket.on('update_game', function(game) {
         }
         tr.append(lastMove);
         
-        if(game.alive[player_id] == false) {
+        if(game.alive[player_profile.id] == false) {
             tr.style.backgroundColor = 'gray';
             tbodyRef.append(tr);
-        } else if(id == player_id) {
+        } else if(id == player_profile.id) {
             tr.style.backgroundColor = 'rgba(150, 212, 212, 0.4)';
             tbodyRef.prepend(tr);
         } else {
@@ -197,16 +206,16 @@ function submit_move() {
     var moves = str.split(',');
     socket.emit('submit_move', {
         room_id: current_room,
-        player_id: player_id,
+        player_id: player_profile.id,
         moves: moves,
         target: target,
     })
 }
 
 
-document.getElementById('player_id').addEventListener('change', function() {
-    player_id = this.value;
-});
+// document.getElementById('player_id').addEventListener('change', function() {
+//     player_id = this.value;
+// });
 
 document.getElementById('create_room').addEventListener('click', () => create_room());
 document.getElementById('refresh_rooms').addEventListener('click', () => 
