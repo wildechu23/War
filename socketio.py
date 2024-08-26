@@ -132,7 +132,7 @@ class MainNamespace(Namespace):
 
     def on_get_achievements(self, data):
         emit('update_achievements', [dict(row) for row in get_achievements(data['player_id'])])
-
+        
     def on_submit_move(self, data):
         room_id = data['room_id']
         player_id = data['player_id']

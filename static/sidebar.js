@@ -28,11 +28,11 @@ function openStats() {
 function closeStats() {
     document.getElementById("Stats").style.width = "0";
 }
-function openContact() {
-    document.getElementById("Contact").style.width = "300px";
+function openContacts() {
+    document.getElementById("Contacts").style.width = "300px";
 }
-function closeContact() {
-    document.getElementById("Contact").style.width = "0";
+function closeContacts() {
+    document.getElementById("Contacts").style.width = "0";
 }
 
 var dropdown = document.getElementsByClassName("dropdown-btn-resource");

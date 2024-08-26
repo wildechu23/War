@@ -150,6 +150,26 @@ socket.on('update_achievements', function(data) {
     })
 })
 
+/*
+socket.on('update_stats', function(data) {
+    var statsUpdate = document.getElementById('stats_ui');
+    
+    var tbodyRef = statsUpdate.getElementsByTagName('tbody')[0];
+    tbodyRef.innerHTML = '';
+
+    data.forEach(item => {
+        var tr = document.createElement('tr');
+
+        var td = document.createElement('td');
+        td.textContent = "Insert Stat Name";
+        tr.append(td);
+        var td = document.createElement('td');
+        td.textContent = "Insert Stat Value";
+        tr.append(td);
+        tbodyRef.append(tr);
+    })
+})
+*/
 
 socket.on('update_game', function(game) {
     var roundNumber = document.getElementById('round_number');
