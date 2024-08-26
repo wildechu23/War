@@ -51,7 +51,7 @@
           <h2> The Objective: </h2>
           <p> 
               Each round, players will submit a move (and a target if required).
-              These moves may include acquiring <span style="color:#7cfc84">resources</span>, <span style="color:#f0170c">attacking</span> players, or <span style="color:#b3bdf5">shielding/deflecting</span> attacks. 
+              These moves may include acquiring <span style="color:#7cfc84">resources</span>, <span style="color:#ff879d">attacking</span> players, or <span style="color:#b3bdf5">shielding/deflecting</span> attacks. 
               The game is played until one player remains or until none are left standing.
           </p>
           <h2> Types of Moves: </h2>
@@ -73,15 +73,15 @@
               This attack interacts directly with the targetted player, and only the targeted player.
               <br>
               <br><span style="font-size: 13px" >Ex. Player A and Player B use <span style="color:#7cfc84">Charge</span>.<br> 
-              Player C uses <span style="color:#f0170c">Pew</span> on Player A. 
+              Player C uses <span style="color:#ff879d">Pew</span> on Player A. 
               Player B still lives.</span><br>
               
-              <br><span style="font-size: 13px" >Ex. Player A and Player B use <span style="color:#f0170c">Pew</span> on each other. Player C uses <span style="color:#f0170c">Pew</span> on Player A. 
+              <br><span style="font-size: 13px" >Ex. Player A and Player B use <span style="color:#ff879d">Pew</span> on each other. Player C uses <span style="color:#ff879d">Pew</span> on Player A. 
               <br>A and B's attacks cancel out, but Player C still defeats Player A.</span><br>
               
               <br>Attacking moves can always be combined (unless specified).
               Even though multiple weapons may be used, there may still only be one target.<br>
-              <br><span style="font-size: 13px" >Ex. <span style="color:#f0170c">Sniper - Pew</span> is a valid move</span>
+              <br><span style="font-size: 13px" >Ex. <span style="color:#ff879d">Sniper - Pew</span> is a valid move</span>
           </p>
           <h2> Interactions: </h2>
           
@@ -116,44 +116,287 @@
           <br><br>
           To help with organization...<br><br>
           <span style="font-size: 18px">Resources</span> shall be in <span style="color:#7cfc84">green</span><br>
-          <span style="font-size: 18px">Attacks</span> shall be in <span style="color:#f0170c">red</span><br>
+          <span style="font-size: 18px">Attacks</span> shall be in <span style="color:#ff879d">red</span><br>
           <span style="font-size: 18px">Shielding/Defense</span> shall be in <span style="color:#b3bdf5">blue</span><br>
           and <span style="font-size: 18px">Rare Special</span> moves shall be in <span style="color:#e389f5">purple</span><br>
           </p>
-
-          <button class="dropdown-btn-resource">Charge 
-            <span class="fa-caret-down"></span>
-          </button>
-          <div class="dropdown-container-resource">
-            <p> Insert Move Info Here </p>
-          </div>
-          
-          <button class="dropdown-btn-general">Moves that use <span style="color:#7cfc84">Charge</span> 
-            <span class="fa fa-caret-down"></span>
-          </button>
-          <div class="dropdown-container">
-            <p> Insert Move Info Here </p>
-          </div>
           
           <button class="dropdown-btn-resource">Block 
             <span class="fa fa-caret-down"></span>
           </button>
-          <div class="dropdown-container">
-            <p> Insert Move Info Here </p>
+          <div class="dropdown-container-resource">
+            <p>
+            Block is the first of two fundamental resources that players will use.
+            It is the standard move as it provides the player with the block resource while offering a 1.5 strength shield.
+            When in doubt, block is your trusty friend!
+            <br><br>
+            Cost: N/A<br>
+            Resources: <span style="color:#7cfc84">+1 Block</span><br>
+            Target Type: Neutral<br>
+            Shield: <span style="color:#b3bdf5">1.5</span>
+            </p>
           </div>
+          <br>
+          
+          <button class="dropdown-btn-resource">Charge 
+            <span class="fa-caret-down"></span>
+          </button>
+          <div class="dropdown-container-resource">
+            <p>
+            Charge is the second of two fundamental resources that players will use.
+            The charge resource generally allows the player to use stronger weapons than the block resource.
+            However, acquiring charges is riskier as the charge move leaves the player vulnerable to attacks.
+            So use charge wisely.
+            <br><br>
+            Cost: N/A<br>
+            Resources: <span style="color:#7cfc84">+1 Charge</span><br>
+            Target Type: Neutral<br>
+            Shield: <span style="color:#b3bdf5">0</span>
+            </p>
+          </div>
+          <br>
           
           <button class="dropdown-btn-general">Moves that use <span style="color:#7cfc84">Block</span> 
             <span class="fa fa-caret-down"></span>
           </button>
-          <div class="dropdown-container">
-            <p> Insert Move Info Here </p>
+          <div class="dropdown-container-general">
+            
+            <br>
+            <p>There are 3 things that can be bought with 2 blocks, forming something like a rock-paper-scissors relationship.</p>
+            <br>
+            
+            <button class="dropdown-btn-attack">Bazooka 
+              <span class="fa fa-caret-down"></span>
+            </button>
+            <div class="dropdown-container-attack">
+              <p>
+              Bazooka is the first of three, beating Sniper and getting snuffed out by Smoke.
+              <br><br>
+              Cost: <span style="color:#7cfc84">-2 Blocks</span><br>
+              Target Type: Single<br>
+              Damage: <span style="color:#ff879d">2</span><br>
+              </p>
+            </div>
+            <br>
+            
+            <button class="dropdown-btn-attack">Sniper
+              <span class="fa fa-caret-down"></span>
+            </button>
+            <div class="dropdown-container-attack">
+              <p>
+              Sniper is the second of three, seeing through Smoke and getting overpowered by Bazooka.
+              <br><br>
+              Cost: <span style="color:#7cfc84">-2 Blocks</span><br>
+              Target Type: Single<br>
+              Damage: <span style="color:#ff879d">1.5</span><br>
+              <br>
+              Effect: Requires 3+ smokes to be snuffed out.
+              </p>
+            </div>
+            <br>
+            
+            <button class="dropdown-btn-general">Smoke / Smoke-Machine
+              <span class="fa fa-caret-down"></span>
+            </button>
+            <div class="dropdown-container-general">
+              
+              <button class="dropdown-btn-defense">Smoke 
+                <span class="fa fa-caret-down"></span>
+              </button>
+              <div class="dropdown-container-defense">
+                <p>
+                Smoke is the final of the three, snuffing out Bazooka and unable to hide against snipers.
+                <br><br>
+                Cost: <span style="color:#7cfc84">-2 Blocks</span><br>
+                Resources: <span style="color:#7cfc84">+1 Fume</span><br>
+                Target Type: Neutral<br>
+                Shield: <span style="color:#b3bdf5">0</span><br>
+                <br>
+                Smoke Cloud: Snuffs out most weapons*<br>
+                <br>
+                *Sniper: Requires 3 smokes<br>
+                *Ghostgun: Can't be smoked
+                </p>
+              </div>
+              <br>
+              
+              <button class="dropdown-btn-attack">Smoke-Machine
+                  <span class="fa fa-caret-down"></span>
+              </button>
+              <div class="dropdown-container-attack">
+                <p>
+                Smoke-Machine can be purchased with fumes [produced by smoke].
+                It is the only attacking move with the "neutral" target type.
+                <br><br>
+                Cost: <span style="color:#7cfc84">-2 Fumes</span><br>
+                Target Type: Neutral<br>
+                Damage: <span style="color:#ff879d">1</span><br>
+                <br>
+                Modified Smoke Cloud: Smoke-Machine almost has the same effect as Smoke*, however it does not smoke out other smoke machines (unlike smoke)
+                <br><br>
+                Suffocation: Deal 1 damage to <b>all</b> players (can be blocked by shields, but not redirected).<br><br>
+                <br>
+                *See Smoke's Effect: Smoke Cloud
+                </p>
+              </div>
+            </div>  
+          </div>
+          <br>
+          
+          <button class="dropdown-btn-general">Moves that use <span style="color:#7cfc84">Charge</span> 
+            <span class="fa fa-caret-down"></span>
+          </button>
+          <div class="dropdown-container-general">
+          
+            <button class="dropdown-btn-attack">Pew 
+              <span class="fa fa-caret-down"></span>
+            </button>
+            <div class="dropdown-container-attack">
+              <p>
+              Pew. Just a little baby gun. Quite literally the least damage you can do, but hey, it can win games.
+              Not to mention you can add it to your other weapons for the cost of only one charge!
+              The default gun may be small, but it can make the difference between suffering defeat and rising to glorious victory.
+              <br><br>
+              Cost: <span style="color:#7cfc84">-1 Charge</span><br>
+              Target Type: Single<br>
+              Damage: <span style="color:#ff879d">1</span><br>
+              </p>
+            </div>
+            <br>
+            
+            <button class="dropdown-btn-attack">Flaming
+              <span class="fa fa-caret-down"></span>
+            </button>
+            <div class="dropdown-container-attack">
+              <p>
+              Flaming is like pew's older sibling. Costs an additional charge, and does an additional damage. Simple!
+              <br><br>
+              Cost: <span style="color:#7cfc84">-2 Charges</span><br>
+              Target Type: Single<br>
+              Damage: <span style="color:#ff879d">2</span><br>
+              </p>
+            </div>
+            <br>
+            
+            <button class="dropdown-btn-attack">Ghostgun
+              <span class="fa fa-caret-down"></span>
+            </button>
+            <div class="dropdown-container-attack">
+              <p>
+              Now ghostgun is a bit different. Kind of like a weird cousin.
+              Not only can it not be combined with other weapons, but it also gets cancelled out by enemy weapons AND ignores enemy shields.
+              <br>Strange.
+              <br><br>
+              Cost: <span style="color:#7cfc84">-2 Charges</span><br>
+              Target Type: Single<br>
+              Damage: <span style="color:#ff879d">1</span><br>
+              <br>
+              Phase-Shift: Ghostgun travels through enemy shields*.<br><br>
+              Dispersion: Ghostgun bullets are dispersed by enemy fire, mitigating any impact from ghostgun.<br><br>
+              Supernatural-ly isolated: Ghostgun can not be used with other weapons.<br>
+              <br>
+              *Phase-Shift does not work on Portal
+              </p>
+            </div>
+            <br>
+            
+            <button class="dropdown-btn-general">Reflect / Portal
+              <span class="fa fa-caret-down"></span>
+            </button>
+            <div class="dropdown-container-general">
+              
+              <button class="dropdown-btn-defense">Reflect 
+                <span class="fa fa-caret-down"></span>
+              </button>
+              <div class="dropdown-container-defense">
+                <p>
+                Smoke and mirrors is a saying or something, right? Not sure what the relevance is but woo, reflect!
+                Have you ever been excited by predicting your enemies with a nice block or smoke, but inflicted with disappointment upon seeing their survival?
+                Well don't fret because now you can get the job done yourself!
+                <br><br>
+                Cost: <span style="color:#7cfc84">-1 Charge</span><br>
+                Resources: <span style="color:#7cfc84">+1 Magical Shard</span><br>
+                Target Type: Neutral<br>
+                Shield: <span style="color:#b3bdf5">inf</span><br>
+                <br>
+                Bouncy: Returns the enemy's bullets*<br>
+                <br>
+                *Ghostgun will bypass this effect.
+                </p>
+              </div>
+              <br>
+              
+              <button class="dropdown-btn-defense">Portal
+                  <span class="fa fa-caret-down"></span>
+              </button>
+              <div class="dropdown-container-defense">
+                <p>
+                So, ghostgun getting through your defenses? How about opening a portal behind enemy lines to send the bullets right back?
+                Portal's got you covered.
+                <br><br>
+                Cost: <span style="color:#7cfc84">-3 Magical Shards</span><br>
+                Target Type: Neutral<br>
+                Shield: <span style="color:#b3bdf5">inf</span><br>
+                <br>
+                Rift-Returnal: Send any bullet back to the sender.
+                </p>
+              </div>
+            </div>
+            <br>
+              
+            <button class="dropdown-btn-general">Invincible / Unbreakable
+              <span class="fa fa-caret-down"></span>
+            </button>
+            <div class="dropdown-container-general">
+              
+              <button class="dropdown-btn-defense">Invincible 
+                <span class="fa fa-caret-down"></span>
+              </button>
+              <div class="dropdown-container-defense">
+                <p>
+                Invincible: a stronger block. It costs charges so it's gonna make you as close to being invincible as you're gonna get.
+                Why does it give you a resource for attacking? Well, of course, offense is the best defense.
+                <br><br>
+                Cost: <span style="color:#7cfc84">-2 Charges</span><br>
+                Resources: <span style="color:#7cfc84">+1 Double</span><br>
+                Target Type: Neutral<br>
+                Shield: <span style="color:#b3bdf5">3</span><br>
+                <br>
+                Smoke Cloud: Snuffs out most weapons*<br>
+                <br>
+                *Sniper: Requires 3 smokes<br>
+                *Ghostgun: Can't be smoked
+                </p>
+              </div>
+              <br>
+              
+              <button class="dropdown-btn-attack">Unbreakable
+                  <span class="fa fa-caret-down"></span>
+              </button>
+              <div class="dropdown-container-attack">
+                <p>
+                The highest damaging weapon. What happens when an unbreakable force meets an invincible object... 0-0
+                <br><br>
+                Cost: <span style="color:#7cfc84">-1 Double</span><br>
+                Target Type: Neutral<br>
+                Damage: <span style="color:#ff879d">3</span><br>
+                </p>
+              </div>
+            </div>  
           </div>
           
+          <br>
           <button class="dropdown-btn-special">Disable</span> 
             <span class="fa fa-caret-down"></span>
           </button>
-          <div class="dropdown-container">
-            <p> Insert Disable Info Here </p>
+          <div class="dropdown-container-special">
+            <p>
+            Wanna mess with your friends? Or perhaps people are using reflect too often? Well you can stop them...at a price.
+            Cost: <span style="color:#7cfc84">-2 Charges, -2 Blocks</span><br>
+            Target Type: Neutral<br>
+            <br>
+            Disable: Any moves done during this round can not be used for the rest of the game.
+            </p>
           </div>
           
       </span>

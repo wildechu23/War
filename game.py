@@ -135,12 +135,90 @@ def EvaluateAchievements(PlayerAchievements, PlayerList, NonEliminatedPlayers, E
                 
         # if PlayerAchievements[player][achievement] == "Unlocked":
         #     print(player, "has unlocked the achievement", achievement, ": " + AchievementDescriptions[achievement])
+#%%
+def PreliminaryMoveCheck(PlayerResources, PlayerMoves, NonEliminatedPlayers, EliminatedPlayers):
+    #Reasons for invalidity: Cost, Combination, Inputs
+    for player in NonEliminatedPlayers:
+        #Cost and Combination Verification
+        CurrentPlayerResources = PlayerResources[player]
+        PlayerMoveTypes = []
+        Eliminated = 0
+        for move in PlayerMoves[player]['Moves']:
+            if move in Movedata.keys():
+                MoveCost = Movedata[move]['Cost']
+                PlayerMoveTypes = PlayerMoveTypes + [Movedata[move]['TargetType']]
+                
+                #Cost Check
+                for resource in MoveCost:
+                    ResourcesRemaining = CurrentPlayerResources[resource] - MoveCost[resource]
+                    CurrentPlayerResources[resource] = ResourcesRemaining
+                    if ResourcesRemaining < 0:
+                        print(player, 'is eliminated: Not Enough Resources')
+                        Eliminated = Eliminated + 1
+            #Valid Input Check
+            else:
+                print(player, 'is eliminated: Non-valid Move Input')
+                Eliminated = Eliminated + 1
+        
+        #Combination Check
+        if 'All' in PlayerMoveTypes:
+            if 'Single' in PlayerMoveTypes:
+                print(player, 'is eliminated: Can not combine Neutral and Attacking Moves')
+                Eliminated = Eliminated + 1
+            elif len(PlayerMoveTypes) > 1 and len(PlayerMoveTypes) != PlayerMoves[player]["Moves"].count('Smoke Machine'):
+                print(player, 'is eliminated: Can not use Neutral moves together unless the combined moves are all smoke machines')
+                Eliminated = Eliminated + 1
+        else:
+            if 'Ghostgun' in PlayerMoves[player]["Moves"] and len(PlayerMoveTypes) != 1:
+                print(player, 'is eliminated: Ghostgun can not be combined with other weapons')
+                Eliminated = Eliminated + 1
+            
+        #Target Check
+        if 'All' in PlayerMoveTypes and PlayerMoves[player]["Target"] != "":
+            print(player, 'is eliminated: Can not target on a neutral move')
+            Eliminated = Eliminated + 1
+        elif 'Single' in PlayerMoveTypes and PlayerMoves[player]["Target"] not in NonEliminatedPlayers:
+            print(player, 'is eliminated: Must have 1 (and only 1) valid target')
+            Eliminated = Eliminated + 1
+        
+        #If inputs were invalid for any reason, the player is eliminated.
+        if Eliminated > 0:
+            EliminatedPlayers = EliminatedPlayers + [player]
+    
+    #Remove all players from the NonEliminatedPlayerList
+    for player in EliminatedPlayers:
+        NonEliminatedPlayers = [player for player in NonEliminatedPlayers if player not in EliminatedPlayers]
+        
+def EvaluateCostValidity(PlayerResources, PlayerMoves, NonEliminatedPlayers, EliminatedPlayers):
+    #Preliminary check should cover targets and valid input. secondary checks on cost only need to look at cost reqs.
+    for player in NonEliminatedPlayers:
+        #Cost Verification
+        CurrentPlayerResources = PlayerResources[player]
+        PlayerMoveTypes = []
+        Eliminated = 0
+        for move in PlayerMoves[player]['Moves']:
+            if move in Movedata.keys():
+                MoveCost = Movedata[move]['Cost']
+                PlayerMoveTypes = PlayerMoveTypes + [Movedata[move]['TargetType']]
+                
+                #Cost Check
+                for resource in MoveCost:
+                    ResourcesRemaining = CurrentPlayerResources[resource] - MoveCost[resource]
+                    CurrentPlayerResources[resource] = ResourcesRemaining
+                    if ResourcesRemaining < 0:
+                        print(player, 'is eliminated: Not Enough Resources')
+                        Eliminated = Eliminated + 1
+        if Eliminated > 0:
+            EliminatedPlayers = EliminatedPlayers + [player]
+    
+    #Remove all players from the NonEliminatedPlayerList
+    NonEliminatedPlayers = [player for player in NonEliminatedPlayers if player not in EliminatedPlayers]
 
 #%%                    
 def EvaluateWarGame(GameMode, PlayerList, PlayerResources, PlayerMoves, PlayerProfiles, PlayerAchievements):
     '''Start of Round'''
     EliminatedPlayers = []
-    NonEliminatedPlayers = PlayerList
+    NonEliminatedPlayers = deepcopy(PlayerList)
     
     OriginalMoves = deepcopy(PlayerMoves)
     
@@ -155,77 +233,78 @@ def EvaluateWarGame(GameMode, PlayerList, PlayerResources, PlayerMoves, PlayerPr
         [{PlayerList[i]: float(0) for i in range (0, len(PlayerList))} for j in range (0, len(PlayerList) + 1)], 
         index = [PlayerList[i] for i in range (0, len(PlayerList))] + ['Total']
         )
-    #First check validity of moves
-    #Reasons for invalidity: Cost, Combination, Inputs
-    for player in PlayerMoves:
-        if player in NonEliminatedPlayers:
-            #Cost and Combination Verification
-            CurrentPlayerResources = PlayerResources[player]
-            PlayerMoveTypes = []
-            Eliminated = 0
-            for move in PlayerMoves[player]['Moves']:
-                if move in Movedata.keys():
-                    MoveCost = Movedata[move]['Cost']
-                    PlayerMoveTypes = PlayerMoveTypes + [Movedata[move]['TargetType']]
+    
+    if GameMode == 'default':
+        #First check validity of moves
+        PreliminaryMoveCheck(PlayerResources, PlayerMoves, NonEliminatedPlayers, EliminatedPlayers)
+        
+        #Give the people their money (resources)
+        for player in NonEliminatedPlayers:
+            for move in PlayerMoves[player]["Moves"]:
+                if move in ResourceMovesList:
+                    PlayerResources[player][ResourceGainList[ResourceMovesList.index(move)]] = PlayerResources[player][ResourceGainList[ResourceMovesList.index(move)]] + 1
+                if move == 'Charge' or move == 'Pew-Charge':
+                    PlayerProfiles[player]['Charges Acquired'] = PlayerProfiles[player]['Charges Acquired'] + 1
+                if move == 'Block':
+                    PlayerProfiles[player]['Blocks Acquired'] = PlayerProfiles[player]['Blocks Acquired'] + 1
                     
-                    #Cost Check
-                    for resource in MoveCost:
-                        ResourcesRemaining = CurrentPlayerResources[resource] - MoveCost[resource]
-                        CurrentPlayerResources[resource] = ResourcesRemaining
-                        if ResourcesRemaining < 0:
-                            print(player, 'is eliminated: Not Enough Resources')
-                            Eliminated = Eliminated + 1
-                #Valid Input Check
-                else:
-                    print(player, 'is eliminated: Non-valid Move Input')
-                    Eliminated = Eliminated + 1
+    elif GameMode == 'share':
+        TempPlayerResources = deepcopy(PlayerResources)
+        TempPlayerProfiles = deepcopy(PlayerProfiles)
+        TempEliminated = []
+        #Start by giving everyone resources
+        for player in NonEliminatedPlayers:
+            for move in PlayerMoves[player]["Moves"]:
+                #In share war, everyone gains the resource
+                for resourceplayer in NonEliminatedPlayers:
+                    if move in ResourceMovesList:
+                        TempPlayerResources[resourceplayer][ResourceGainList[ResourceMovesList.index(move)]] = PlayerResources[resourceplayer][ResourceGainList[ResourceMovesList.index(move)]] + 1
+                    if move == 'Charge' or move == 'Pew-Charge':
+                        TempPlayerProfiles[resourceplayer]['Charges Acquired'] = PlayerProfiles[resourceplayer]['Charges Acquired'] + 1
+                    if move == 'Block':
+                        TempPlayerProfiles[resourceplayer]['Blocks Acquired'] = PlayerProfiles[resourceplayer]['Blocks Acquired'] + 1
+        
+        #do first round of elimination based on tempplayer resources
+        PreliminaryMoveCheck(TempPlayerResources, PlayerMoves, NonEliminatedPlayers, TempEliminated)
+        EliminatedPlayers = EliminatedPlayers + TempEliminated
+        
+        #If people were eliminated, we must re-evaluate resources. Reset and re-evaluate
+        while(TempEliminated != []):
+            TempPlayerResources = deepcopy(PlayerResources)
+            TempPlayerProfiles = deepcopy(PlayerProfiles)
+            TempEliminated = []
+            for player in NonEliminatedPlayers:
+                for move in PlayerMoves[player]["Moves"]:
+                    #In share war, everyone gains the resource
+                    for resourceplayer in NonEliminatedPlayers:
+                        if move in ResourceMovesList:
+                            TempPlayerResources[resourceplayer][ResourceGainList[ResourceMovesList.index(move)]] = PlayerResources[resourceplayer][ResourceGainList[ResourceMovesList.index(move)]] + 1
+                        if move == 'Charge' or move == 'Pew-Charge':
+                            TempPlayerProfiles[resourceplayer]['Charges Acquired'] = PlayerProfiles[resourceplayer]['Charges Acquired'] + 1
+                        if move == 'Block':
+                            TempPlayerProfiles[resourceplayer]['Blocks Acquired'] = PlayerProfiles[resourceplayer]['Blocks Acquired'] + 1
+            EvaluateCostValidity(TempPlayerResources, PlayerMoves, NonEliminatedPlayers, TempEliminated)   
             
-            #Combination Check
-            if 'All' in PlayerMoveTypes:
-                if 'Single' in PlayerMoveTypes:
-                    print(player, 'is eliminated: Can not combine Neutral and Attacking Moves')
-                    Eliminated = Eliminated + 1
-                elif len(PlayerMoveTypes) > 1 and len(PlayerMoveTypes) != PlayerMoves[player]["Moves"].count('Smoke Machine'):
-                    print(player, 'is eliminated: Can not use Neutral moves together unless the combined moves are all smoke machines')
-                    Eliminated = Eliminated + 1
-            else:
-                if 'Ghostgun' in PlayerMoves[player]["Moves"] and len(PlayerMoveTypes) != 1:
-                    print(player, 'is eliminated: Ghostgun can not be combined with other weapons')
-                    Eliminated = Eliminated + 1
-                
-            #Target Check
-            if 'All' in PlayerMoveTypes and PlayerMoves[player]["Target"] != "":
-                print(player, 'is eliminated: Can not target on a neutral move')
-                Eliminated = Eliminated + 1
-            elif 'Single' in PlayerMoveTypes and PlayerMoves[player]["Target"] not in NonEliminatedPlayers:
-                print(player, 'is eliminated: Must have 1 (and only 1) valid target')
-                Eliminated = Eliminated + 1
-            
-            #If inputs were invalid for any reason, the player is eliminated.
-            if Eliminated > 0:
-                EliminatedPlayers = EliminatedPlayers + [player]
-            #If not eliminated, look at smokes/smokemachines
-            elif 'Smoke' in PlayerMoves[player]["Moves"]:
-                Smoked = Smoked + PlayerMoves[player]["Moves"].count('Smoke')
-            elif 'Smoke Machine' in PlayerMoves[player]:
-                SmokeMachined = SmokeMachined + PlayerMoves[player]["Moves"].count('Smoke Machine')
-                NumSmokeMachinePlayers = NumSmokeMachinePlayers + 1
-                
+            EliminatedPlayers = EliminatedPlayers + TempEliminated
+        
+        #once everyone has been eliminated, update player resources and player profiles only for those not illegally eliminated
+        for player in NonEliminatedPlayers:
+            PlayerResources[player] = TempPlayerResources[player]
+            PlayerProfiles[player] = TempPlayerProfiles[player]
+    
+    #distinction is needed for stats
     IllegalElimination = deepcopy(EliminatedPlayers)
-    
-    #Give the people their money (resources)
-    for player in NonEliminatedPlayers:
-        for move in PlayerMoves[player]["Moves"]:
-            if move in ResourceMovesList:
-                PlayerResources[player][ResourceGainList[ResourceMovesList.index(move)]] = PlayerResources[player][ResourceGainList[ResourceMovesList.index(move)]] + 1
-            if move == 'Charge' or move == 'Pew-Charge':
-                PlayerProfiles[player]['Charges Acquired'] = PlayerProfiles[player]['Charges Acquired'] + 1
-            if move == 'Block':
-                PlayerProfiles[player]['Blocks Acquired'] = PlayerProfiles[player]['Blocks Acquired'] + 1
-    
+     
     #Cancelling all moves due to smoke or smoke machine
+    for player in NonEliminatedPlayers:
+        if 'Smoke' in PlayerMoves[player]["Moves"]:
+            Smoked = Smoked + PlayerMoves[player]["Moves"].count('Smoke')
+        elif 'Smoke Machine' in PlayerMoves[player]:
+            SmokeMachined = SmokeMachined + PlayerMoves[player]["Moves"].count('Smoke Machine')
+            NumSmokeMachinePlayers = NumSmokeMachinePlayers + 1
+                
     if Smoked > 0 or SmokeMachined > 0:
-        for player in PlayerMoves:
+        for player in PlayerList:
             removelist = []
             for move in PlayerMoves[player]["Moves"]:
                 #normal weapons are smoked out
@@ -243,44 +322,43 @@ def EvaluateWarGame(GameMode, PlayerList, PlayerResources, PlayerMoves, PlayerPr
     #Note, targeting players eliminated this round is still valid (since you can't predict their elimination)
     #However when we consider moves, only consider players who did legal moves
     for player in NonEliminatedPlayers:
-        if player not in EliminatedPlayers:
-            for move in PlayerMoves[player]["Moves"]:
-                if move in Movedata:
-                    if 'Shield' in Movedata[move].keys():
-                        PlayerDataframe.loc['Total', player] = PlayerDataframe.loc['Total', player] + float(Movedata[move]['Shield'])
-                    if 'Damage' in Movedata[move].keys():
-                        if move == 'Smoke Machine':
-                            for affectedplayer in NonEliminatedPlayers:
-                                if affectedplayer != player and 'Reflect' not in PlayerMoves[affectedplayer]["Moves"] and 'Portal' not in PlayerMoves[affectedplayer]["Moves"]:
-                                    PlayerDataframe.loc['Total', affectedplayer] = PlayerDataframe.loc['Total', affectedplayer] - float(Movedata[move]['Damage'])
-                                    KillCredits[affectedplayer] = KillCredits[affectedplayer] + [player]
-                        else:
-                            TargetPlayer = PlayerMoves[player]["Target"]
-                            #If we are ghostgun and they shoot at us (legally), ghostgun damage is ignored. 
-                            #As long as that is not the case...
-                            if move != 'Ghostgun' or player != PlayerMoves[TargetPlayer]["Target"] or player in EliminatedPlayers:
-                                #Standard Considerations
-                                
-                                #If reflected or portaled, attacker takes damage. Do not add as shielding for target player.
-                                if 'Reflect' in PlayerMoves[TargetPlayer]["Moves"] and TargetPlayer not in EliminatedPlayers and move != 'Ghostgun':
-                                    PlayerDataframe.loc[TargetPlayer, player] = PlayerDataframe.loc[TargetPlayer, player] - float(Movedata[move]['Damage'])
-                                    KillCredits[player] = KillCredits[player] + [TargetPlayer]
-                                elif 'Portal' in PlayerMoves[TargetPlayer]["Moves"] and TargetPlayer not in EliminatedPlayers:
-                                    PlayerDataframe.loc[TargetPlayer, player] = PlayerDataframe.loc[TargetPlayer, player] - float(Movedata[move]['Damage'])
-                                    KillCredits[player] = KillCredits[player] + [TargetPlayer]
-                                else:
-                                    #Add damage to target player
-                                    PlayerDataframe.loc[player, TargetPlayer] = PlayerDataframe.loc[player, TargetPlayer] - float(Movedata[move]['Damage'])
+        for move in PlayerMoves[player]["Moves"]:
+            if move in Movedata:
+                if 'Shield' in Movedata[move].keys():
+                    PlayerDataframe.loc['Total', player] = PlayerDataframe.loc['Total', player] + float(Movedata[move]['Shield'])
+                if 'Damage' in Movedata[move].keys():
+                    if move == 'Smoke Machine':
+                        for affectedplayer in NonEliminatedPlayers:
+                            if affectedplayer != player and 'Reflect' not in PlayerMoves[affectedplayer]["Moves"] and 'Portal' not in PlayerMoves[affectedplayer]["Moves"]:
+                                PlayerDataframe.loc['Total', affectedplayer] = PlayerDataframe.loc['Total', affectedplayer] - float(Movedata[move]['Damage'])
+                                KillCredits[affectedplayer] = KillCredits[affectedplayer] + [player]
+                    else:
+                        TargetPlayer = PlayerMoves[player]["Target"]
+                        #If we are ghostgun and they shoot at us (legally) with a non-ghostgun, ghostgun damage is ignored. 
+                        #As long as any of those conditions are not met...
+                        if move != 'Ghostgun' or player != PlayerMoves[TargetPlayer]["Target"] or TargetPlayer in EliminatedPlayers or "Ghostgun" in PlayerMoves[TargetPlayer]["Moves"]:
+                            #Standard Considerations
+                            
+                            #If reflected or portaled, attacker takes damage. Do not add as shielding for target player.
+                            if 'Reflect' in PlayerMoves[TargetPlayer]["Moves"] and TargetPlayer not in EliminatedPlayers and move != 'Ghostgun':
+                                PlayerDataframe.loc[TargetPlayer, player] = PlayerDataframe.loc[TargetPlayer, player] - float(Movedata[move]['Damage'])
+                                KillCredits[player] = KillCredits[player] + [TargetPlayer]
+                            elif 'Portal' in PlayerMoves[TargetPlayer]["Moves"] and TargetPlayer not in EliminatedPlayers:
+                                PlayerDataframe.loc[TargetPlayer, player] = PlayerDataframe.loc[TargetPlayer, player] - float(Movedata[move]['Damage'])
+                                KillCredits[player] = KillCredits[player] + [TargetPlayer]
+                            else:
+                                #Add damage to target player
+                                PlayerDataframe.loc[player, TargetPlayer] = PlayerDataframe.loc[player, TargetPlayer] - float(Movedata[move]['Damage'])
+                                if move != 'Ghostgun':
                                     #Also add shield in that direction only
                                     PlayerDataframe.loc[TargetPlayer, player] = PlayerDataframe.loc[TargetPlayer, player] + float(Movedata[move]['Damage'])   
-                                    KillCredits[TargetPlayer] = KillCredits[TargetPlayer] + [player]
+                                KillCredits[TargetPlayer] = KillCredits[TargetPlayer] + [player]
     for player in NonEliminatedPlayers:
-        if player not in EliminatedPlayers:
-            if PlayerDataframe.loc['Total', player] <= 0:
-                if (PlayerDataframe.get(player).values < 0).any() ==True:
-                    EliminatedPlayers = EliminatedPlayers + [player]   
-            elif PlayerDataframe[player].sum() < 0:
-                EliminatedPlayers = EliminatedPlayers + [player]
+        if PlayerDataframe.loc['Total', player] <= 0:
+            if (PlayerDataframe.get(player).values < 0).any() ==True:
+                EliminatedPlayers = EliminatedPlayers + [player]   
+        elif PlayerDataframe[player].sum() < 0:
+            EliminatedPlayers = EliminatedPlayers + [player]
     
     #Remove all eliminated players
     NonEliminatedPlayers = [player for player in NonEliminatedPlayers if player not in EliminatedPlayers]
@@ -360,7 +438,7 @@ def getAchievementDescriptions():
 # #ExamplePlayerMoves = {'Player 1': {'Moves':['Smoke'], 'Target': ''}, 'Player 2': {'Moves':['Sniper'], 'Target': 'Player 3'}, 'Player 3': {'Moves':['Sniper'], 'Target': 'Player 2'}}
 # #ExamplePlayerMoves = {'Player 1': {'Moves':['Smoke'], 'Target': ''}, 'Player 2': {'Moves':['Sniper'], 'Target': 'Player 3'}, 'Player 3': {'Moves':['Ghostgun'], 'Target': 'Player 2'}}
 # 
-# ExampleGameMode = 'Default'
+# ExampleGameMode = 'default'
 # ExampleOutputData = EvaluateWarGame(ExampleGameMode, ExamplePlayerList, ExamplePlayerResources, ExamplePlayerMoves, ExamplePlayerProfiles, ExamplePlayerAchievements)
 # =============================================================================
       
