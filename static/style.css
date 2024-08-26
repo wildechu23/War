@@ -283,12 +283,12 @@ header .action {
   float: right;
 }
 
-#achievement_ui td {
+#achievement_ui td, #stats_ui td {
     color: #f1f1f1;
     height: 30px;
 }
 
-#achievement_ui {
+#achievement_ui, #stats_ui {
     padding: 0px 10px;
     width: 100%;
 }

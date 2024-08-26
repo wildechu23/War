@@ -1,7 +1,7 @@
 import uuid
 from . import socketio
 from flask_socketio import Namespace, emit, join_room, leave_room, close_room
-from .game import EvaluateWarGame, getAchievementDescriptions
+from .game import EvaluateWarGame, getAchievementDescriptions, StatsList
 from .db import get_username, get_missing_achievements, get_achievements, get_user, get_user_profile, update_profile
 
 rooms = {}
@@ -132,6 +132,11 @@ class MainNamespace(Namespace):
 
     def on_get_achievements(self, data):
         emit('update_achievements', [dict(row) for row in get_achievements(data['player_id'])])
+        print([dict(row) for row in get_achievements(data['player_id'])])
+    
+    def on_get_user_profile(self, data):
+        emit('update_profile', [{'StatName': StatsList[i-2], 'StatValue': get_user_profile(data['player_id'])[i]} for i in range(2, len(get_user_profile(data['player_id'])))])
+        print([{'StatName': StatsList[i-2], 'StatValue': get_user_profile(data['player_id'])[i]} for i in range(2, len(get_user_profile(data['player_id'])))])
         
     def on_submit_move(self, data):
         room_id = data['room_id']

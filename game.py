@@ -50,6 +50,8 @@ AchievementDescriptions = {
     'Lack of All Trades': 'Lose with every move'
 }
 
+StatsList = ['Wins', 'Losses', 'Total Kills', 'Total Assists', 'Charges Acquired', 'Blocks Acquired']
+
 #%%
 def EvaluateAchievements(PlayerAchievements, PlayerList, NonEliminatedPlayers, EliminatedPlayers, IllegalElimination, OriginalMoves, PlayerMoves, PlayerProfiles, KillCredits):
     from .db import unlock_achievement
