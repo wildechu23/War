@@ -23,7 +23,7 @@ class MainNamespace(Namespace):
             'moves': {},
             'alive': {},
             'profiles': {},
-            'achievements':{},
+            'achievements': {},
             'achievementDescriptions': getAchievementDescriptions()
         }
 
@@ -133,7 +133,6 @@ class MainNamespace(Namespace):
     def on_get_achievements(self, data):
         emit('update_achievements', [dict(row) for row in get_achievements(data['player_id'])])
 
-
     def on_submit_move(self, data):
         room_id = data['room_id']
         player_id = data['player_id']
@@ -170,7 +169,7 @@ class MainNamespace(Namespace):
         ReturnInfo = EvaluateWarGame(
             game['mode'], 
             [player for player in game['alive'] if game['alive'][player] == True], 
-            game['players'], 
+            [player['player_id'] for player in game['players']], 
             game['moves'], 
             game['profiles'], 
             game['achievements']
