@@ -2,7 +2,7 @@ import uuid
 from . import socketio
 from flask_socketio import Namespace, emit, join_room, leave_room, close_room
 from .game import EvaluateWarGame, getAchievementDescriptions
-from .db import get_username, get_missing_achievements
+from .db import get_username, get_missing_achievements, get_achievements, get_user, get_user_profile, update_profile
 
 rooms = {}
 games = {}
@@ -12,7 +12,7 @@ class MainNamespace(Namespace):
         rooms[room_id] = {
             'players': [],
             'leader': '',
-            'state': 'waiting',  # or 'playing', 'finished', etc.
+            'state': 'waiting',  # or 'playing'
         }
 
     def create_game(self, room_id, players):
@@ -28,8 +28,9 @@ class MainNamespace(Namespace):
         }
 
         for player_obj in players:
-            player = player_obj['player_id']
-            games[room_id]['players'][player] = {
+            player_id = player_obj['player_id']
+
+            games[room_id]['players'][player_id] = {
                 'Username': player_obj['username'],
                 'Charges': 0,
                 'Blocks': 0,
@@ -38,22 +39,24 @@ class MainNamespace(Namespace):
                 'Doubles': 0,
                 'Pew-Charge': 1,
             }
-            games[room_id]['profiles'][player] = {
-                'Wins': 0, 
-                'Losses': 0, 
-                'Total Kills': 0, 
-                'Total Assists': 0,
-                'Charges Acquired': 0,
-                'Blocks Acquired': 0
+
+            user = get_user_profile(player_id)
+            games[room_id]['profiles'][player_id] = {
+                'Wins': user[2], 
+                'Losses': user[3], 
+                'Total Kills': user[4], 
+                'Total Assists': user[5],
+                'Charges Acquired': user[6],
+                'Blocks Acquired': user[7]
             }
 
-            missing = get_missing_achievements(player)
-            games[room_id]['achievements'][player] = {}
+            missing = get_missing_achievements(player_id)
+            games[room_id]['achievements'][player_id] = {}
             for achievement in missing:
-                games[room_id]['achievements'][player][achievement['Title']] = False
+                games[room_id]['achievements'][player_id][achievement['Title']] = False
             
-            games[room_id]['moves'][player] = None
-            games[room_id]['alive'][player] = True
+            games[room_id]['moves'][player_id] = None
+            games[room_id]['alive'][player_id] = True
 
 
     def on_create_room(self, data):
@@ -110,9 +113,10 @@ class MainNamespace(Namespace):
                 del rooms[room_id]
             
     def on_get_user(self):
-        from .db import get_user
         user = get_user()
-        emit('user', {'id': user[0], 'username': user[1]})
+        if user:
+            emit('user', {'id': user[0], 'username': user[1]})
+        
 
     def on_get_rooms(self):
         available_rooms = [room_id for room_id, room in rooms.items() if room['state'] == 'waiting']
@@ -127,7 +131,6 @@ class MainNamespace(Namespace):
         emit('update_game', games[room_id], room=room_id)
 
     def on_get_achievements(self, data):
-        from .db import get_achievements
         emit('update_achievements', [dict(row) for row in get_achievements(data['player_id'])])
 
 
@@ -151,11 +154,16 @@ class MainNamespace(Namespace):
                 self.end_game(room_id, alive_players)
 
     def end_game(self, room_id, alive_players):
+        self.update_profiles(games[room_id]['profiles'])
         emit('end_game', {
             'winner': alive_players[0]
         } if len(alive_players) == 1 else {}, room=room_id)
         del games[room_id]
         rooms[room_id]['state'] = 'waiting'
+
+    def update_profiles(self, profiles):
+        for id, profile in profiles.items():
+            update_profile(id, profile)
             
 
     def process_moves(self, game):

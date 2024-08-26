@@ -35,11 +35,21 @@ def register():
 
         if error is None:
             try:
-                db.execute(
+                cursor = db.cursor()
+                cursor.execute(
                     "INSERT INTO Users (Username, PasswordHash) VALUES (?, ?)",
                     (username, generate_password_hash(password)),
                 )
                 db.commit()
+
+                user_id = cursor.lastrowid
+                if user_id:
+                    cursor.execute(
+                        "INSERT INTO UserProfiles (UserID) VALUES (?)",
+                        (user_id,),
+                    )
+                    db.commit()
+
             except db.IntegrityError:
                 error = f"User {username} is already registered."
             else:

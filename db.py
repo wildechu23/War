@@ -20,11 +20,45 @@ def get_user():
         db = get_db()
 
         user = db.execute(
-            'SELECT UserID, Username FROM Users WHERE UserID = ?', 
+            'SELECT * FROM Users WHERE UserID = ?', 
             (user_id,)
         ).fetchone()
 
         return user
+
+def get_user_profile(user_id):
+    db = get_db()
+
+    user = db.execute(
+        'SELECT * FROM UserProfiles WHERE UserID = ?', 
+        (user_id,)
+    ).fetchone()
+
+    return user
+
+def update_profile(user_id, profile):
+    db = get_db()
+
+    try:
+        db.execute(
+            '''
+                UPDATE UserProfiles
+                SET (Wins, Losses, TotalKills, TotalAssists, Charges, Blocks) = (?, ?, ?, ?, ?, ?)
+                WHERE UserID = ?
+            ''',
+            (
+                profile['Wins'], 
+                profile['Losses'], 
+                profile['Total Kills'], 
+                profile['Total Assists'], 
+                profile['Charges Acquired'],
+                profile['Blocks Acquired'],
+                user_id
+            )
+        )
+        db.commit()
+    except:
+        print("Error on update user " + user_id)
     
 def get_username(id):
     db = get_db()
@@ -66,8 +100,9 @@ def init_achievements():
 def add_achievements():
     db = get_db()
 
-    from .game import AchievementDescriptions
-    for key, value in AchievementDescriptions.items():
+
+    from .game import getAchievementDescriptions
+    for key, value in getAchievementDescriptions().items():
         try:
             db.execute(
                 "INSERT INTO Achievements (Title, Details) VALUES (?, ?)",

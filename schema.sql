@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS Users;
+DROP TABLE IF EXISTS UserProfiles;
 DROP TABLE IF EXISTS Achievements;
 DROP TABLE IF EXISTS UserAchievements;
 
@@ -7,6 +8,18 @@ CREATE TABLE Users (
     UserID INTEGER PRIMARY KEY,
     Username TEXT UNIQUE NOT NULL,
     PasswordHash TEXT NOT NULL
+);
+
+CREATE TABLE UserProfiles (
+    ProfileID INTEGER PRIMARY KEY,
+    UserID INTEGER NOT NULL,
+    Wins INTEGER DEFAULT 0,
+    Losses INTEGER DEFAULT 0,
+    TotalKills INTEGER DEFAULT 0,
+    TotalAssists INTEGER DEFAULT 0,
+    Charges INTEGER DEFAULT 0,
+    Blocks INTEGER DEFAULT 0,
+    FOREIGN KEY (UserID) REFERENCES Users(UserID)
 );
 
 CREATE TABLE Achievements (
